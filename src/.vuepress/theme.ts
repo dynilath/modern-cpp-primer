@@ -4,7 +4,7 @@ import { enSidebar, zhSidebar } from "./sidebar/index.js";
 export default hopeTheme({
 
   iconAssets: "fontawesome-with-brands",
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "dynilath/moder-cpp-primer",
 
   docsDir: "src",
 

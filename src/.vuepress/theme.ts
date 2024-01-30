@@ -62,7 +62,7 @@ export default hopeTheme({
       tabs: true,
       vPre: true,
       mermaid: true,
-
+      markmap: true,
       revealJs: {
         plugins: ["highlight", "math", "search", "notes", "zoom"],
       },

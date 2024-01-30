@@ -8,11 +8,11 @@ export default defineUserConfig({
   locales: {
     "/en/": {
       lang: "en-US",
-      title: "Moder C++ Primer",
+      title: "Modern C++ Primer",
     },
     "/zh/": {
       lang: "zh-CN",
-      title: "Moder C++ Primer",
+      title: "Modern C++ Primer",
     },
   },
 

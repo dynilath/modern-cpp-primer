@@ -1,0 +1,43 @@
+name: deploy docs
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+          version: 8
+
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: build
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          pnpm run docs:build
+          > src/.vuepress/dist/.nojekyll
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: src/.vuepress/dist

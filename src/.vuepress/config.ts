@@ -1,8 +1,10 @@
 import { defineUserConfig } from "vuepress";
 import { redirectPlugin } from "vuepress-plugin-redirect";
 import theme from "./theme.js";
+import { viteBundler } from "@vuepress/bundler-vite";
 
 export default defineUserConfig({
+  bundler: viteBundler(),
   base: "/modern-cpp-primer/",
 
   locales: {

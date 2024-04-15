@@ -1,4 +1,4 @@
 ---
-title: 1 环境搭建
+title: 1 初识 C++
 index: false
 ---

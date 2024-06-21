@@ -6,7 +6,7 @@ title: 1.2 标识符与关键字
 
 在 C++ 中，程序员常常需要自定义的标记来表示一些程序的实体，例如变量、函数、类型等等。程序员赋予程序实体名字，之后在程序的其他部分就可以通过这个名字来引用这个实体。这个名字就是**标识符**。
 
-标识符是由字母、数字和下划线组成的，其中第一个字符必须是字母或下划线。标识符是大小写敏感的，也就是说 `hello` 和 `Hello` 是两个不同的标识符。
+标识符是由字母、数字和下划线组成的，其中第一个字符必须是字母或下划线（不能是数字）。标识符是大小写敏感的，也就是说 `hello` 和 `Hello` 是两个不同的标识符。
 
 举例而言，在下面的程序中
 
@@ -24,7 +24,7 @@ int main() {
 此外，这里的 `int`、`main`、`std`、`cout`、`endl`、`import`、`return` 都是标识符。它们与程序员自己定义的标识符有所区别，有的是关键字，有的是具有特殊意义的标识符，有的是预定义的标识符，这会在后文做出解释。
 
 ::: info 
-读者可能已经发现了标识符几乎可以是任何字符，中文字符可以、日文字符可以、甚至是 emoji（例如：🤣） 也可以。  
+读者可能已经发现了标识符几乎可以是任何语言的字符，中文字符可以、日文字符也可以，甚至是许多emoji都可以（非人脸的多数emoji）。  
 
 技术性地讲，任何标记为 XID_Start 的 Unicode 字符都可以作为标识符的首字符，而任何标记为 XID_Continue 的 Unicode 字符都可以作为标识符的后续字符。  
 
@@ -63,6 +63,24 @@ int main() {
 
 具体而言，以 `__` 开头的标识符都是保留的标识符。以 `_` 开头，第二个字符是大写字母的标识符也是保留的标识符。全局命名空间中，以一个下划线开始的标识符。都是被保留的。例如，任何位置出现的`_Reserved`、`_M_reserved`、`__m`，在全局命名空间的 `_x` 都是保留的标识符。
 
-::: info
-读者可能会在调试程序中看到标准库的实现，会发现许多如本节所述的名称。标准库除了标准规定的函数与类型，其他地方被限制使用上述的保留标识符。标准库的使用者不应当使用这些标识符，这是一种规范。
-:::
+读者可能会在调试程序中看到标准库的源文件，会发现许多如本节所述的，被称为保留的标识符，名称。例如，下面是 `microsoft/STL` 中的一段代码：
+
+```cpp
+    template <class... _Valty>
+    _CONSTEXPR20 _Ty& _Emplace_one_at_back(_Valty&&... _Val) {
+        // insert by perfectly forwarding into element at end, provide strong guarantee
+        auto& _My_data   = _Mypair._Myval2;
+        pointer& _Mylast = _My_data._Mylast;
+
+        if (_Mylast != _My_data._Myend) {
+            return _Emplace_back_with_unused_capacity(_STD forward<_Valty>(_Val)...);
+        }
+
+        return *_Emplace_reallocate(_Mylast, _STD forward<_Valty>(_Val)...);
+    }
+```
+
+这里的 `_CONSTEXPR20`、`_Ty`、`_Emplace_one_at_back`、`_Valty`、`_My_data` 等等全都都是保留的标识符。
+
+除了标准规定的一些名称比较好看的函数与类型，标准库本身实现的时候，基本上被限制使用上述的保留标识符。而作为标准库的使用者，**不应当**使用这些标识符，这是一种规范。
+

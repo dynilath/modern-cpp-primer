@@ -1,7 +1,9 @@
 import { defineUserConfig } from "vuepress";
-import { redirectPlugin } from "vuepress-plugin-redirect";
 import theme from "./theme.js";
 import { viteBundler } from "@vuepress/bundler-vite";
+import { registerComponentsPlugin } from "@vuepress/plugin-register-components";
+import { components } from "vuepress-theme-hope";
+import { path } from 'vuepress/utils'
 
 export default defineUserConfig({
   bundler: viteBundler(),
@@ -17,12 +19,13 @@ export default defineUserConfig({
       title: "Modern C++ Primer",
     },
   },
-
-  plugins: [
-    redirectPlugin({
-      autoLocale: true
-    })
-  ],
-
   theme,
+  plugins: [
+    registerComponentsPlugin({
+      components: {
+        Choices: path.resolve(__dirname, "./components/Choices.vue"),
+        ShikiRenderer: path.resolve(__dirname, "./components/ShikiRenderer.vue"),
+      }
+    }),
+  ]
 });

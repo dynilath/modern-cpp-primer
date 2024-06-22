@@ -33,6 +33,9 @@ export default hopeTheme({
     components: {
       components: ["Badge", "VPCard"],
     },
+    redirect: {
+      autoLocale: true
+    },
     mdEnhance: {
       align: true,
       attrs: true,

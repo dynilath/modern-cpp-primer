@@ -84,3 +84,39 @@ int main() {
 
 除了标准规定的一些名称比较好看的函数与类型，标准库本身实现的时候，基本上被限制使用上述的保留标识符。而作为标准库的使用者，**不应当**使用这些标识符，这是一种规范。
 
+## 快速练习
+
+<Choices 
+    :questions="[
+        {
+            text: '下面的代码中，有哪些是标识符？',
+            code: 'const int a = 1;',
+            options: ['const', 'int', 'a', '=', '1'],
+            answers: ['const', 'int', 'a']
+        },
+        {
+            text: '下面的代码中，有哪些是关键字？',
+            code: 'const int a = 1;',
+            options: ['const', 'int', 'a', '=', '1'],
+            answers: ['const', 'int']
+        },
+        {
+            text: '下面的代码中，有哪些是标识符？',
+            code: 'int plus_one(int a) { \n    return a + 1; \n}',
+            options: ['int', 'plus_one', 'int', 'a', 'return', '1', '+', ';'],
+            answers: ['plus_one', 'int', 'a', 'return']
+        },
+        {
+            text: '下面的代码中，有哪些是标识符？',
+            code: '#include <iostream> \nint main() { \n    std::cout << &#34;Hello, World&#34;; \n}',
+            options: ['include', 'iostream', 'int', 'main', 'std', 'cout', '<<', '&#34Hello, World&#34', ';'],
+            answers: ['int', 'main', 'std', 'cout']
+        },
+        {
+            text: '下面的代码中，有哪些是关键字？',
+            code: '#include <iostream> \n\nint main() { \n    std::cout << &#34;Hello, World&#34;; \n}',
+            options: ['include', 'iostream', 'int', 'main', 'std', 'cout', '<<', '&#34Hello, World&#34', ';'],
+            answers: ['int']
+        },
+    ]"
+/>

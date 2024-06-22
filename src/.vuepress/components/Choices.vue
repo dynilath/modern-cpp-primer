@@ -1,7 +1,7 @@
 <template>
     <div class="multiple-choice-question">
       <p>{{ text }}</p>
-      <div class="language-container">
+      <div class="language-container" v-if="code">
         <ShikiRenderer :code="code" language="cpp"/>
       </div>
       <div v-for="(option, index) in options" :key="index" class="option">

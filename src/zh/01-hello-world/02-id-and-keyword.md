@@ -103,7 +103,7 @@ int main() {
         {
             text: '下面的代码中，有哪些是标识符？',
             code: 'int plus_one(int a) { \n    return a + 1; \n}',
-            options: ['int', 'plus_one', 'int', 'a', 'return', '1', '+', ';'],
+            options: ['int', 'plus_one', 'a', 'return', '1', '+', ';'],
             answers: ['plus_one', 'int', 'a', 'return']
         },
         {

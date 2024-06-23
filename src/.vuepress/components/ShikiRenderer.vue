@@ -33,14 +33,14 @@ export default {
     },
     methods: {
         update(){
-            this.highlightedCode = highlighter?.codeToHtml(
+            this.highlightedCode = this.highlighter?.codeToHtml(
                 this.code,{themes: shikiThemes, lang: this.language, transformers: [
                     addClassTransformer,
                 ]}) ?? '';
         }
     },
     async mounted() {
-        highlighter = createHighlighter({themes: Object.values(shikiThemes), langs: ['cpp']});
+        this.highlighter = await createHighlighter({themes: Object.values(shikiThemes), langs: ['cpp']});
         this.update();
     },
     updated() {

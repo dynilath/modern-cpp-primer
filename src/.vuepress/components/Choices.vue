@@ -66,6 +66,15 @@
       submitAnswer() {
         this.showFeedback = true;
         this.isCorrect = this.selectedOptions.length === this.answers.length && this.selectedOptions.every(option => this.answers.includes(option));
+
+        if(this.isCorrect) {
+          setTimeout(() => {
+            this.selectedQuestion = undefined;
+            this.selectedOptions = [];
+            this.showFeedback = false;
+            this.$forceUpdate();
+          }, 1000);
+        }
       }
     }
   };

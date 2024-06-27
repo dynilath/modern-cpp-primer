@@ -89,19 +89,21 @@ import std;
 需要注意，这里提到的“一行”是在进行了上述的合并行操作之后的一行。例如：
 
 ```cpp
-#define DECLARE_PRINT_HEADER_MESSAGE(header, name) \
-    void name(std::string str) { \
-        std::println(std::string(header) + str); \
+#define PRINT_MESSAGE(header, name) \
+    void name(string str) { \
+        std::println(string(header) + str); \
     }
 ```
 
-这里的 `\` 用于将宏定义的内容延续到下一行，因为`#define`后面的内容必须在一行内。上面的代码等价于：
+这里的 `\` 用于将宏定义的内容延续到下一行。这是因为 `#define` 这个预处理指令必须在同一行内，因此后面的内容必须只有一行。去掉换行之后，上面的代码等价于：
     
 ```cpp
-#define DECLARE_PRINT_HEADER_MESSAGE(header, name) void name(std::string str) { std::println(std::string(header) + str); }
+#define PRINT_MESSAGE(header, name) void name(string str) { std::println(string(header) + str); }
 ```
 
+::: note
 在后面的章节更深入地讨论预处理指令之前，读者可以暂时认为，源码文件里总是先有一系列预处理指令，然后是由标点符号、关键字、标识符、字面量等组成的程序代码。
+:::
 
 ## 快速练习
 

@@ -13,6 +13,7 @@ const addClassTransformer = {
 }
 
 const shikiThemes = {light:"github-light", dark:"github-dark"};
+let highlighter = undefined;
 
 export default {
     props: {
@@ -33,14 +34,15 @@ export default {
     },
     methods: {
         update(){
-            this.highlightedCode = this.highlighter?.codeToHtml(
+            this.highlightedCode = highlighter?.codeToHtml(
                 this.code,{themes: shikiThemes, lang: this.language, transformers: [
                     addClassTransformer,
                 ]}) ?? '';
         }
     },
     async mounted() {
-        this.highlighter = await createHighlighter({themes: Object.values(shikiThemes), langs: ['cpp','text']});
+        if(highlighter === undefined)
+            highlighter = await createHighlighter({themes: Object.values(shikiThemes), langs: ['cpp','text']});
         this.update();
     },
     updated() {

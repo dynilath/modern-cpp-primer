@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       selectedQuestion: undefined,
+      queuedQuestions: [],
       selectedOptions: [],
       showFeedback: false,
       isCorrect: false,
@@ -55,14 +56,24 @@ export default {
     }
   },
   methods: {
+    clearAndNext() {
+      this.selectedOptions = [];
+      this.showFeedback = false;
+
+      this.queuedQuestions = this.queuedQuestions.filter(q => q != this.selectedQuestion);
+      if(this.queuedQuestions.length === 0) {
+        this.queuedQuestions = this.questions.slice(0);
+        this.queuedQuestions = this.queuedQuestions.sort(() => Math.random() - 0.5);
+      }
+
+      this.selectedQuestion = this.queuedQuestions[0];
+
+      if(this.selectedQuestion.shuffleOptions ?? true)
+        this.selectedQuestion.options = this.selectedQuestion.options.sort(() => Math.random() - 0.5);
+    },
     initQuestion() {
       if(this.selectedQuestion === undefined) {
-        const questions = this.questions.filter(q => q != this.selectedQuestion);
-
-        if(questions.length > 0) this.selectedQuestion = questions[Math.floor(Math.random() * questions.length)];
-        else this.selectedQuestion = this.questions[0];
-
-        this.selectedQuestion.options = this.selectedQuestion.options.sort(() => Math.random() - 0.5);
+        this.clearAndNext();
       }
     },
     submitAnswer() {
@@ -70,12 +81,7 @@ export default {
       this.isCorrect = this.selectedOptions.length === this.answers.length && this.selectedOptions.every(option => this.answers.includes(option));
 
       if(this.isCorrect) {
-        setTimeout(() => {
-          this.selectedQuestion = undefined;
-          this.selectedOptions = [];
-          this.showFeedback = false;
-          this.$forceUpdate();
-        }, 1000);
+        setTimeout(() => {this.clearAndNext();}, 1000);
       }
     }
   }

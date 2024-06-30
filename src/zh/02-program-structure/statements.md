@@ -8,7 +8,7 @@ title:  2.3 初识语句
 
 ## 表达式语句
 
-**表达式语句**简单来说就是一个表达式后面跟着一个分号 `;`。例如：
+**表达式语句**简单来说就是一个[表达式](./expression.md)后面跟着一个分号 `;`。例如：
 
 ```cpp
 a = 1;
@@ -128,6 +128,14 @@ if (a > b) max = a;
 ```
 :::
 
+::: tip
+有时候你需要将一个[相等表达式](./expression.md#相等表达式)作为 `condition`，例如：
+```cpp
+if (a == b) equal = true;
+```
+初学者会经常错误地将 `a == b` 写成 `a = b`，但 `a = b` 是一个[赋值表达式](./expression.md#赋值表达式)，将 `b` 赋值给 `a`，并且返回 `a` 的值。这样，并不会做 `a` 和 `b` 是否相等的判断。
+:::
+
 `if` 语句的执行流程是：
 1. 计算 `condition` 的值。
 2. 将 `condition` 的值转换为 `bool`。
@@ -194,7 +202,6 @@ switch (a) {
 switch (int b = 2; a) {
     case 1: as = b; break;
     case 2: as = b * 4; break;
-    case 3: as = b * 9; break;
     default: as = 0;
 }
 ```
@@ -205,7 +212,6 @@ switch (int b = 2; a) {
     switch (a) {
         case 1: as = b; break;
         case 2: as = b * 4; break;
-        case 3: as = b * 9; break;
         default: as = 0;
     }
 }

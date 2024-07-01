@@ -38,6 +38,7 @@ export default hopeTheme({
     },
     shiki: {
       themes: { light: "github-light", dark: "github-dark" },
+      langs: ["cpp", "powershell", "bash", "cmd"],
       notationDiff: true,
       notationHighlight: true,
       notationErrorLevel: true,

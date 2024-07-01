@@ -36,6 +36,13 @@ export default hopeTheme({
     redirect: {
       autoLocale: true
     },
+    shiki: {
+      themes: { light: "github-light", dark: "github-dark" },
+      notationDiff: true,
+      notationHighlight: true,
+      notationErrorLevel: true,
+      notationWordHighlight: true,
+    },
     mdEnhance: {
       align: true,
       attrs: true,

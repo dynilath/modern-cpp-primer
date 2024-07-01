@@ -4,6 +4,12 @@
 
 <script>
 import {createHighlighter} from 'shiki';
+import {
+    transformerNotationHighlight,
+    transformerNotationDiff,
+    transformerNotationErrorLevel,
+    transformerNotationWordHighlight,
+} from '@shikijs/transformers';
 
 const addClassTransformer = {
   name: 'vuepress:add-class',
@@ -36,6 +42,10 @@ export default {
         update(){
             this.highlightedCode = highlighter?.codeToHtml(
                 this.code,{themes: shikiThemes, lang: this.language, transformers: [
+                    transformerNotationHighlight(),
+                    transformerNotationDiff(),
+                    transformerNotationErrorLevel(),
+                    transformerNotationWordHighlight(),
                     addClassTransformer,
                 ]}) ?? '';
         }

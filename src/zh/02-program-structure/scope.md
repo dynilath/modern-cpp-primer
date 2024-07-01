@@ -235,7 +235,7 @@ namespace A {
     int a = 1;
 }
 
-int b = A::a; // 正确：通过有限定名称访问 A 命名空间中的 a
+int b = A::a; // 通过有限定名称访问 A 命名空间中的 a
 ```
 
 有限定名称作为表达式时，是一个[基本表达式](./expression.md#基本表达式)。
@@ -400,8 +400,8 @@ namespace B {
     int b = a;
 }
 
-int c = B::b; // 正确：可以访问 B 命名空间中的 b
-int d = B::a; // 正确：可以访问 B 命名空间中引入的 A 命名空间中的 a
+int c = B::b; // 可以访问 B 命名空间中的 b
+int d = B::a; // 可以访问 B 命名空间中引入的 A 命名空间中的 a
 ```
 
 ## `using namespace` 指令
@@ -447,8 +447,45 @@ namespace B {
     using namespace A; // 在 B 命名空间中引入 A 命名空间中的所有名称
 }
 
-int c = B::a; // 正确：可以访问 B 命名空间中引入的 A 命名空间中的 a
-int d = B::b; // 正确：可以访问 B 命名空间中引入的 A 命名空间中的 b
+int c = B::a; // 可以访问 B 命名空间中引入的 A 命名空间中的 a
+int d = B::b; // 可以访问 B 命名空间中引入的 A 命名空间中的 b
+```
+
+## 命名空间别名
+
+命名空间别名的形式是：
+```cpp
+namespace name = namespace_name;
+```
+其中，`name` 是一个标识符，表示新引入的别名。`namespace_name` 是需要起别名的命名空间名称，可以是有限定的名称。
+
+这可以用于简化过长的名称，或者嵌套过深的名称。例如：
+
+```cpp
+namespace A {
+    namespace B {
+        namespace C {
+            int c = 3;
+        }
+    }
+}
+
+namespace ABC = A::B::C;
+
+int d = ABC::c; // 可以访问 A::B::C 命名空间中的 c
+```
+
+此外，命名空间别名可以产生类似引入其他命名空间的效果。例如：
+```cpp
+namespace A {
+    int a = 1;
+}
+
+namespace B {
+    namespace C = A; // 在 B 命名空间中引入 A 命名空间
+}
+
+int b = B::C::a; // 可以访问 A 命名空间中的 a
 ```
 
 ## 标准库命名空间

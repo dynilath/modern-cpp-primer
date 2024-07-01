@@ -95,7 +95,7 @@ good: {
 }
 ```
 
-标号语句会用于`goto`和`switch`语句中，都用来表达程序的跳转。
+标号语句会用于 `switch` 语句中，用来表达程序的跳转目标。
 
 ::: info
 `case` 标号后面的表达式技术上来说是一个常量表达式，这个概念会在后续章节中介绍。在目前的阶段，读者可以暂时认为 `case` 后面的 `value` 必须是一个字面量的整数。
@@ -191,9 +191,9 @@ switch (a) {
 `switch` 语句的执行过程是：
 1. 计算 `condtion` 的值。
 2. 比较 `condtion` 的值和 `switch` 语句中 `case` 标号语句后面的 `value` 的值。
-   1. 如果存在 `condtion` 的值和某个 `case` 后面的 `value` 的值相等，则从这个 `case` 语句开始依次执行。
-   2. 如果找不到 `condtion` 的值和任何 `case` 后面的 `value` 的值相等，则从 `default` 标号语句开始执行。
-   3. 如果执行到 `break;` 语句，则结束 `switch` 语句的执行，这就是 `break;` 语句的作用。
+   - 如果存在 `condtion` 的值和某个 `case` 后面的 `value` 的值相等，则从这个 `case` 语句开始依次执行。
+   - 如果找不到 `condtion` 的值和任何 `case` 后面的 `value` 的值相等，则从 `default` 标号语句开始执行。
+3. 如果执行到 `break;` 语句，则结束 `switch` 语句的执行。
 
 这里， `break;` 也是一种语句，称为**跳转语句**，它用于多种语句结构中，`switch` 语句中的 `break;` 用于结束 `switch` 语句的执行。
 

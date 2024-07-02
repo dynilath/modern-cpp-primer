@@ -110,6 +110,7 @@ C++ 中默认提供的整数类型包括：
 | `std::uintmax_t`      | 最大位宽无符号整数类型       |          |
 | `std::intptr_t`       | 整数类型，用于指针           |          |
 | `std::uintptr_t`      | 无符号整数类型，用于指针     |          |
+| `std::ptrdiff_t`      | 有符号整数类型，用于指针差值 |          |
 
 这些类型的名字不是关键字，因此以 `std::` 作为前缀。
 
@@ -119,7 +120,9 @@ C++ 中默认提供的整数类型包括：
 
 实现可以提供 `N` 不在上述之列的 `std::intN_t`，`std::int_fastN_t` 和 `std::int_leastN_t` 等类型，但也必须满足 `std::intN_t` 的位宽是 `N`，`std::int_fastN_t` 和 `std::int_leastN_t` 的位宽至少是 `N`。
 
-`std::intptr_t` 和 `std::uintptr_t` 是用于指针的整数类型。`std::intptr_t` 是有符号整数类型，`std::uintptr_t` 是无符号整数类型。它们的位宽足够容纳对象指针类型的位宽。我们会在后面的章节中介绍指针类型。
+`std::intptr_t` 和 `std::uintptr_t` 是用于指针的整数类型。`std::intptr_t` 是有符号整数类型，`std::uintptr_t` 是无符号整数类型。它们足够容纳对象指针类型的位宽。
+
+`std::ptrdiff_t` 是用于表示指针差值的整数类型。它足够容纳两个指针之间的差值。我们会在后面的章节中介绍指针类型。
 
 ## 浮点类型
 

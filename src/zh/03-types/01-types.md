@@ -2,58 +2,53 @@
 title: 3.1 类型概述
 ---
 
-在[初识声明，类型与对象](../02-program-structure/declaration.md)中，我们简单介绍了类型的概念。在 C++ 中，类型是对象的属性，决定了对象的值的集合，以及对象上可以进行的操作。
+在[类型与对象](../02-program-structure/declaration.md#类型与对象)中，我们已经介绍过，对象的类型决定了对象的值的集合，以及对象上可以进行的操作。
 
-## 整数类型
+本章将详细介绍 C++ 中的类型，包括基本类型、复合类型、自定义类型等。
 
-在前面的章节中，为了介绍表达式，介绍了三种类型 `int`、`bool` 和 `char`。这里我们详细介绍整数类型。
+除了对象有类型之外，前面常常提到的“值”也有类型，函数也有类型。
 
-C++ 中默认提供的整数类型包括：
+## 类型别名
 
-| 类型                     | 含义               | 最小字节数                            |
-| ------------------------ | ------------------ | ------------------------------------- |
-| `signed char`            | 有符号字符类型     | 占用 1 个字节。                       |
-| `unsigned char`          | 无符号字符类型     | 占用 1 个字节。                       |
-| `short int`              | 短整数类型         | 至少占用 2 个字节。                   |
-| `unsigned short int`     | 无符号短整数类型   | 至少占用 2 个字节。                   |
-| `int`                    | 整数类型           | 至少占用 2 个字节，且不小于 `short`。 |
-| `unsigned int`           | 无符号整数类型     | 至少占用 2 个字节，且不小于 `short`。 |
-| `long int`               | 长整数类型         | 至少占用 4 个字节，且不小于 `int`。   |
-| `unsigned long int`      | 无符号长整数类型   | 至少占用 4 个字节，且不小于 `int`。   |
-| `long long int`          | 长长整数类型       | 至少占用 8 个字节，且不小于 `long`。  |
-| `unsigned long long int` | 无符号长长整数类型 | 至少占用 8 个字节，且不小于 `long`。  |
+在深入了解类型之前，我们先来看看类型别名。
 
-注意，这些类型名称中的一部分是可以省略、或者无影响地添加的。这包括：
+类型别名是一个已存在类型的别名。通过类型别名，我们可以为一个类型定义一个新的名字。
 
-| 类型                 | 等同的类型                                  | 最短形式         |
-| -------------------- | ------------------------------------------- | ---------------- |
-| `short int`          | `short`、`signed short`、`signed short int` | `short`          |
-| `unsigned short int` | `unsigned short`                            | `unsigned short` |
-| `int`                | `signed`、`signed int`                      | `int`            |
-| `unsigned int`       | `unsigned`                                  | `unsigned`       |
-| `long int`           | `long`、`signed long`、`signed long int`    | `long`           |
-| `unsigned long int`  | `unsigned long`                             | `unsigned long`  |
+声明类型别名的方式是使用 `using` 关键字，语法如下：
 
-`char` 是字符类型，属于整数类型，它与 `signed char` 或者 `unsigned char` 之一的二进制表示相同，但是从语言上 `char` 类型是一个独立的类型，与 `signed char` 和 `unsigned char` 均不同。
+```cpp
+using alias_type = existing_type;
+```
 
-`wchar_t` 是宽字符类型，属于整数类型，它的大小与平台有关，通常是2字节或者4字节。
+其中，`alias_type` 是新的类型名，`existing_type` 是已存在的类型名。
 
-`bool` 类型是整数类型，它只有两个值 `true` 和 `false`。`bool` 类型的大小 C++ 没有规定，但是通常为1字节。
+类型别名可以如同已经存在的类型一般使用，例如：
 
-### 整型提升
+```cpp
+typedef int Integer; // Integer 是 int 的别名
 
-之前的章节中介绍过，在计算 [乘性表达式](../02-program-structure/expression.md#乘性表达式) 时，如果操作数是 `bool` 或者 `char` 时，会转换为 `int` 类型。这种转换称为整型提升。
+Integer a = 42; // 等价于 int a = 42;
 
-这个规则具体而言是：
+int foo(int x); // 函数前向声明
 
-对于 [正运算符](../02-program-structure/expression.md#正运算符)、[负运算符](../02-program-structure/expression.md#负运算符)、[移位表达式](../02-program-structure/expression.md#移位表达式)、[按位取反](../02-program-structure/expression.md#按位取反)、[乘性表达式](../02-program-structure/expression.md#乘性表达式)、[加性表达式](../02-program-structure/expression.md#加性表达式)、[按位与](../02-program-structure/expression.md#按位与)、[按位或](../02-program-structure/expression.md#按位或)、[按位异或](../02-program-structure/expression.md#按位异或)，整数类型的计算具有以下整数提升规则：
+Integer foo(Integer x) { // 可以这样定义，Integer 是 int 的别名意味着 Integer 就是 int 类型
+    return x;
+}
+```
 
-其中 操作数 表示上述表达式中，运算符左右两侧的表达式。这里的描述不需要区分左右操作数，对二者均有效。
+在 20 世纪的 C++ 中，`typedef` 是声明类型别名的关键字。相较于 `using` 关键字，`typedef` 更不直观。
 
-- 如果操作数是 `bool` 类型，那么将操作数转换到 `int` 类型，那么 `false` 转换为 `0`，`true` 转换为 `1`。
+`typedef` 的语法是：
 
-- 如果 `int` 类型能表示两个操作数的所有值，那么提升到 `int` 类型。
-- 否则，如果 `unsigned int` 类型能表示两个操作数的所有值，那么提升到 `unsigned int` 类型。
-- 否则，如果 `long int` 类型能表示两个操作数的所有值，那么提升到 `long int` 类型。
-- 否则，如果 `unsigned long int` 类型能表示两个操作数的所有值，那么提升到 `unsigned long int` 类型。
+```cpp
+typedef declaration
+```
+这里的 `declaration` 是一个没有初始化器的声明语句。例如：
 
+```cpp
+typedef int Integer, integer;
+```
+
+如果这是一个声明语句，就是声明了两个 `int` 类型的对象： `Integer` 和 `integer`。由于这里前面有 `typedef`，这个声明的含义就变成了声明了两个 `int` 类型的类型别名：`Integer` 和 `integer`。
+
+对于复杂的类型名，这种声明会产生更多的麻烦，这在后面的章节中会有所体现。

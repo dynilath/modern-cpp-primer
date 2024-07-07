@@ -36,7 +36,7 @@ sizeof (type_id)
 ```cpp
 sizeof expression
 ```
-其中，`sizeof` 是一个关键字，在这里作为一个运算符。`type_id` 是完整类型名，`expression` 是[一元表达式](./expression.md#一元表达式)。
+其中，`sizeof` 是一个关键字，在这里作为一个运算符。`type_id` 需要是一个完整类型，`expression` 是[一元表达式](./expression.md#一元表达式)。
 
 `sizeof` 表达式是一个[一元表达式](./expression.md#一元表达式)，其值是一个 `size_t` 类型的值，表示对象的大小。`size_t` 是一个无符号的整数类型（不会有负数），其值足以表达当前平台上任意对象的大小。例如：
 
@@ -79,7 +79,7 @@ size_t size_of_a = sizeof (a++); // 获取对象 a 的大小
 alignof (type_id)
 ```
 
-这里，`alignof` 是一个关键字，在这里作为一个运算符。`type_id` 是完整类型名。
+这里，`alignof` 是一个关键字，在这里作为一个运算符。`type_id` 需要是一个完整类型。
 
 `alignof` 表达式的值是一个 `size_t` 类型的值，表示对象的对齐要求。例如：
 

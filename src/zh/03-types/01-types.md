@@ -20,7 +20,7 @@ title: 3.1 类型概述
 using alias_type = existing_type;
 ```
 
-其中，`alias_type` 是新的类型名，`existing_type` 是已存在的类型名。
+其中，`alias_type` 是一个新引入的标识符，表示相同类型，`existing_type` 是已存在的类型的标识符（技术性地说，也能是表示类型的表达式，在这里我们不深入讨论）。
 
 类型别名可以如同已经存在的类型一般使用，例如：
 
@@ -36,7 +36,7 @@ Integer foo(Integer x) { // 可以这样定义，Integer 是 int 的别名意味
 }
 ```
 
-在 20 世纪的 C++ 中，`typedef` 是声明类型别名的关键字。相较于 `using` 关键字，`typedef` 更不直观。
+在 20 世纪的 C 和 C++ 中，`typedef` 是声明类型别名的关键字。相较于 `using` 关键字，`typedef` 更不直观。
 
 `typedef` 的语法是：
 
@@ -51,4 +51,4 @@ typedef int Integer, integer;
 
 如果这是一个声明语句，就是声明了两个 `int` 类型的对象： `Integer` 和 `integer`。由于这里前面有 `typedef`，这个声明的含义就变成了声明了两个 `int` 类型的类型别名：`Integer` 和 `integer`。
 
-对于复杂的类型名，这种声明会产生更多的麻烦，这在后面的章节中会有所体现。
+对于复杂的类型，这种声明会产生更多的麻烦，这在后面的章节中会有所体现。

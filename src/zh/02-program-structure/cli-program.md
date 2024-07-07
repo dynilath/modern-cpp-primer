@@ -203,7 +203,7 @@ main.exe
 Hello, World!
 ```
 
-## 输出对象
+## 输出值
 
 在上面的程序中，我们使用了 `std::println` 函数来输出文本。这个函数是标准库中的一个函数，用来输出文本到控制台。这个函数能够接受多个参数，将参数作为文本输出到控制台。例如：
     
@@ -269,4 +269,55 @@ The square root of 8 is 2
 The square root of 9 is 3
 The square root of 10 is 3
 
+```
+
+## 输入字符
+
+:::important TODO: 补充内容
+:::
+
+```cpp
+std::getchar();
+```
+
+```cpp
+int c, result = 0;
+while((c = std::getchar()) != '\n') {
+    result = result * 10 + (c - '0');
+}
+std::println("The input number is {}", result);
+```
+
+```cpp
+int result = 0;
+while(true) {
+    int c = std::getchar();
+    if(c > '9' || c < '0') {
+        break;
+    }
+    result = result * 10 + (c - '0');
+}
+std::println("The input number is {}", result);
+```
+
+## 输入多个整数并求和
+
+:::important TODO: 补充内容
+:::
+
+```cpp
+int result = 0; 
+int sum = 0;
+while(true) {
+    int c = std::getchar();
+    if(c == ' ' || c == ',') {
+        sum += result;
+        result = 0;
+        continue;
+    } else if(c > '9' || c < '0') {
+        sum += result;
+        break;
+    }
+    result = result * 10 + (c - '0');
+}
 ```

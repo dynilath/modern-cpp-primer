@@ -62,19 +62,20 @@ C++ 中默认提供的整数类型包括：
 
 `std::size_t` 是无符号整数类型，用于表示对象的大小。是 `sizeof` 和 `alignof` 运算符的结果类型。`size_t` 的大小由平台决定。
 
-### 整型提升
+### 整数提升
 
-之前的章节中介绍过，在计算 [乘性表达式](../02-program-structure/expression.md#乘性表达式) 时，如果操作数是 `bool` 或者 `char` 时，会转换为 `int` 类型。这种转换称为整型提升。
+之前的章节中介绍过，在计算 [乘性表达式](../02-program-structure/expression.md#乘性表达式) 时，如果操作数是 `bool` 或者 `char` 时，会转换为 `int` 类型。这种转换称为整数提升。
 
 这个规则具体而言是：
 
 对于 [正运算符](../02-program-structure/expression.md#正运算符)、[负运算符](../02-program-structure/expression.md#负运算符)、[移位表达式](../02-program-structure/expression.md#移位表达式)、[按位取反](../02-program-structure/expression.md#按位取反)、[乘性表达式](../02-program-structure/expression.md#乘性表达式)、[加性表达式](../02-program-structure/expression.md#加性表达式)、[按位与](../02-program-structure/expression.md#按位与)、[按位或](../02-program-structure/expression.md#按位或)、[按位异或](../02-program-structure/expression.md#按位异或)，整数类型的计算具有以下整数提升规则：
 
+将组成运算符所在表达式内，运算符左右两边的表达式称为操作数。对于正运算符、负运算符、按位取反，操作数是运算符右边的表达式。
+
 如果操作数是 `bool` 类型，那么将操作数转换到 `int` 类型，`false` 转换为 `0`，`true` 转换为 `1`。
 
 然后，按照下面的顺序：`int`、`unsigned int`、`long int`、`unsigned long int`，`long long int`、`unsigned long long int`。选择第一个值范围能够容纳所有操作数的类型。将操作数转换为这个类型。
 
-操作数表示上述表达式中，运算符左右两侧的表达式。这里的描述不需要区分左右操作数，对二者均有效。
 
 ### 定宽整数类型
 

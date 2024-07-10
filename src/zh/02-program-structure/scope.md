@@ -509,11 +509,11 @@ int main() {
 
 这样的规定是为了避免程序员干扰标准库的功能，产生不可预测的结果。
 
-:::info println 究竟是什么？
+::: info println 究竟是什么？
 技术性的来说，`println` 是一个函数模板。关于 `println` 函数的实现（例如，为什么能用[字符串字面量](../01-hello-world/literals.md#字符串字面量)为参数），以及何为输出，这些我们在后面的章节中讲解。
 :::
 
-:::info import std; 是什么？
+::: info import std; 是什么？
 在前面[预处理指令](../01-hello-world/source-processed.md#预处理指令)中，我们知道 `import std;` 是一个和模块相关的预处理指令。
 它的作用是导入一个名为 `std` 的模块。具体的模块导入机制，我们会在后面的章节中讲解。
 :::

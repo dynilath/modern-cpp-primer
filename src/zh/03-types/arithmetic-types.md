@@ -46,9 +46,9 @@ C++ 中默认提供的整数类型包括：
 | `long int`           | `long`、`signed long`、`signed long int`    | `long`           |
 | `unsigned long int`  | `unsigned long`                             | `unsigned long`  |
 
-此外，
+除了上述用于表示基本整数的类型，C++ 还提供了一些用于表示字符的整数类型：
 
-`char` 是字符类型，属于整数类型，它与 `signed char` 或者 `unsigned char` 之一的二进制表示相同，但是从语言上 `char` 类型是一个独立的类型，与 `signed char` 和 `unsigned char` 均不同。
+`char` 是字符类型，属于整数类型，它与 `signed char` 或者 `unsigned char` 之一的值表示相同，但是从语言上 `char` 类型是一个独立的类型，与 `signed char` 和 `unsigned char` 均不同。
 
 `char8_t` 是 UTF-8 字符类型，属于整数类型。它和 `unsigned char` 有相同的大小和符号性、大小和对齐，但它是和 `unsigned char` 不同的类型。
 
@@ -57,6 +57,8 @@ C++ 中默认提供的整数类型包括：
 `char32_t` 是 UTF-32 字符类型，属于整数类型。它的大小足够表示一个 UTF-32 编码单元。它和 `std::uint_least32_t` 有相同的大小和符号性、大小和对齐，但它是和 `std::uint_least32_t` 不同的类型（见后文）。
 
 `wchar_t` 是宽字符类型，属于整数类型，它的大小由平台决定，通常是2字节或者4字节。
+
+除了上述的整数类型之外，C++ 还提供了一些特殊的整数类型：
 
 `bool` 是布尔类型，属于整数类型，它只有两个值 `true` 和 `false`。`bool` 类型的大小 C++ 没有规定，但是通常为1字节。
 

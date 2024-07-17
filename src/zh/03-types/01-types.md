@@ -66,3 +66,59 @@ typedef int Integer, integer;
 ::: info 二进制表示
 在很多时候，人们描述对象会使用“二进制表示”这样的说法。通常而言，这是在用二进制来描述一个对象的值表示。不过，值表示是 C++ 标准中的的术语，在更广泛的场景里，使用“二进制表示”的说法更便于沟通。
 :::
+
+## `auto` 推导声明
+
+在声明一个对象时，我们可以使用 `auto` 关键字来代替声明中的对象类型，指示根据初始化器的类型来推导对象的类型。例如：
+
+```cpp
+auto a = 42; // 由于初始化器是 int 字面量 42，类型为 int，因此推导 a 的类型为 int
+auto b = a; // 由于初始化器是 a，类型为 int，因此推导 b 的类型为 int
+```
+
+此外，`auto`也可以用于函数参数和返回值的类型推导：
+
+```cpp
+auto sqrt(auto x) {
+    auto a = x;
+    while (a * a > x) {
+        a = (a + x / a) / 2;
+    }
+    return a;
+}
+
+auto a = foo(42); // 由于 42 是 int 类型，x 的类型也是 int，因此 foo 返回值的类型推导为 int，a 的类型也是 int
+```
+
+对于目前的内容而言，读者可能会觉得 `auto` 的使用并不是很有必要，甚至会觉得 `auto` 的使用会使代码变得不够清晰。但是在后面的章节中，我们会逐渐看到 `auto` 的使用能够让复杂的程序变得简洁明了且更易维护。
+
+## `decltype` 类型推导
+
+`decltype` 是一个运算符，用来推导表达式的类型。`decltype` 的语法是：
+
+```cpp
+decltype(expression)
+```
+
+其中，`expression` 是一个表达式，整个 `decltype(expression)` 的结果是 `expression` 的类型，可以用在需要提供类型的语法位置。
+
+`decltype` 可以如下使用：
+
+```cpp
+int a = 42;
+decltype(a) b = 42; // b 的类型是 int
+```
+
+如同前面 `auto` 的例子，我们可以这样使用 `decltype`：
+
+```cpp
+auto sqrt(auto x) {
+    decltype(x) a = x;
+    while (a * a > x) {
+        a = (a + x / a) / 2;
+    }
+    return a;
+}
+```
+
+此外，C++ 中存在一些专门需要进行类型推导的场景，这时 `decltype` 就会发挥出它最重要的作用。这些场景会在后面的章节中详细介绍。

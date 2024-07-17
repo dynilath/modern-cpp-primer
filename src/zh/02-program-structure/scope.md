@@ -205,7 +205,7 @@ namespace name {
     // 在这里进行声明和定义
 }
 ```
-这里，`namespace` 是一个关键字，指示这是一个命名空间的声明。`name` 是命名空间的名称，可以是任意合法的[标识符](../01-hello-world/id-and-keyword.md)。
+这里，`namespace` 是一个关键字，指示这是一个命名空间的声明。`name` 是命名空间的名称，可以是任意符合语法的[标识符](../01-hello-world/id-and-keyword.md)。
 
 命名空间的声明必须在命名空间中，而不能在语句带来的的作用域内。
 

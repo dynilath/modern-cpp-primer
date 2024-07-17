@@ -208,7 +208,7 @@ C++ 中默认提供的浮点类型包括：
 - [后缀自减](../02-program-structure/expression.md#后缀自减运算符)和[前缀自减](../02-program-structure/expression.md#前缀自减运算符)：将操作数浮点数的值减少1。
 - [正运算符](../02-program-structure/expression.md#正运算符)：表达式的值与操作数相同。
 - [负运算符](../02-program-structure/expression.md#负运算符)：将操作数的符号取反。
-- [加性表达式和乘性表达式](../02-program-structure/expression.md#加性表达式和乘性表达式)：如同数学计算，表达式的值是将操作数的值进行计算。由于浮点数存在精度，因此在计算时可能会有舍入。浮点数不能进行取模（%）运算。
+- [加性表达式和乘性表达式](../02-program-structure/expression.md#加性表达式和乘性表达式)：如同数学计算，表达式的值是将操作数的值进行计算。由于浮点数存在精度，因此在计算时可能会有舍入。浮点数不能进行模运算（`%`）。
 - [关系表达式](../02-program-structure/expression.md#关系表达式)：如同数学比较。不过浮点数有一些特殊值，这在后面进行介绍。三路比较时，浮点数的比较结果是 `std::partial_ordering` 类型，会出现一个特殊的“无顺序”结果。
 - [赋值表达式](../02-program-structure/expression.md#赋值表达式)：如同整数的赋值。
 

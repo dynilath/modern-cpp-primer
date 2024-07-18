@@ -134,7 +134,7 @@ if (a > b) max = a;
 :::
 
 ::: tip
-有时候你需要将一个[相等表达式](./expression.md#相等表达式)作为 `condition`，例如：
+有时候，我们需要将一个[相等表达式](./expression.md#相等表达式)作为 `condition`，例如：
 ```cpp
 if (a == b) equal = true;
 ```
@@ -178,7 +178,7 @@ switch (condtion) statement
 
 这里 `condtion` 是一个表达式，用来表达选择条件，`statement` 是语句，表示 `switch` 需要控制执行的语句。
 
-你可能会奇怪，这后面只有一个 `statement`，这个选择语句在选择什么呢？实际上，`switch` 语句规定了，在 `switch` 语句中的任何一个语句，可以使用 `case` 或者 `default` 标号，组成标号语句。
+读者可能会奇怪，这后面只有一个 `statement`，这个选择语句在选择什么呢？实际上，`switch` 语句规定了，在 `switch` 语句中的任何一个语句，可以使用 `case` 或者 `default` 标号，组成标号语句。
 
 这意味着 `switch` 后面的 `statement` 往往是一个复合语句，里面包含了多个 `case` 标号语句和 `default` 标号语句。
 
@@ -283,7 +283,7 @@ switch(a) {
   - 否则，如果 `a` 除以 `5` 的余数不为 `0`，`result` 的值为 `3`；
   - 否则，`result` 的值为 `0`。
 
-此外，你可以在 `switch` 语句中使用 `switch` 语句。这时，`case` 和 `default` 标号语句，以及 `break;` 跳转语句仅关联到往上级最近的 `switch` 语句。例如
+此外，可以在 `switch` 语句中使用 `switch` 语句。这时，`case` 和 `default` 标号语句，以及 `break;` 跳转语句仅关联到往上级最近的 `switch` 语句。例如
 
 ```cpp
 switch(a) {

@@ -26,6 +26,7 @@ export default defineUserConfig({
         Choices: path.resolve(__dirname, "./components/Choices.vue"),
         ShikiRenderer: path.resolve(__dirname, "./components/ShikiRenderer.vue"),
         DecOctHex: path.resolve(__dirname, "./components/DecOctHex.vue"),
+        Binary32: path.resolve(__dirname, "./components/Binary32.vue"),
       }
     }),
   ]

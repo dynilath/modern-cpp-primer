@@ -64,11 +64,17 @@ function floatToLeastLenString(floatNumber) {
         return str;
     }
 
-    let decimalLen = str.length - dotIndex - 1;
-    while(decimalLen > 0) {
-        let nstr = floatNumber.toFixed(decimalLen);
+    let precision = str.length - 1;
+
+    let eIndex = str.indexOf('e');
+    if(eIndex !== -1) {
+        precision = eIndex - 1;
+    }
+
+    while(precision > 0) {
+        let nstr = floatNumber.toPrecision(precision);
         if (normFloat32(parseFloat(nstr)) === floatNumber) {
-            decimalLen -= 1;
+            precision -= 1;
             str = nstr;
         }
         else break;

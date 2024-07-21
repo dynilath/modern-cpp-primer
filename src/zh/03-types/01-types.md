@@ -67,6 +67,12 @@ typedef int Integer, integer;
 
 如果没有这里的 `typedef`，这会是一个声明语句，并声明了两个 `int` 类型的对象： `Integer` 和 `integer`。由于 `typedef` 的参与，这个声明的含义就变成了声明了两个 `int` 类型的类型别名：`Integer` 和 `integer`。
 
+`typedef` 并不一定要出现在最开始，它可以出现在声明的标识符前面的任何位置。例如：
+```cpp
+int typedef Integer;
+```
+这样也是合法地声明了 `Integer` 是 `int` 的别名。
+
 对于复杂的类型，这种别名声明会相比 `using` 产生一些麻烦，这在后面的章节中会有所体现。
 
 ## `auto` 推导声明

@@ -111,10 +111,6 @@ long my_int x = 42;  // [!code error] // 错误：long my_int 不能组成 long 
 | SILP64   | 64          | 64    | 64         | 64              | 64                                | Classic UNICOS                                |
 |          | 16          | 16    | 32         | 64              | 16 (是 `unsigned int` 的别名)     | 嵌入式系统，如AVR                             |
 |          | 8           | 8     | 16         | 32              | 16 (是 `long unsigned int`的别名) | 嵌入式系统，如AVR（int8模式）                 |
-|          | 16          | 16    | 32         | 未提供          | 16 (是 `unsigned int` 的别名)     | **\*** Borland C++ 4.0 16bit                  |
-|          | 16          | 32    | 32         | 未提供          | 32 (是 `unsigned int` 的别名)     | **\*** Borland C++ 4.0 32bit                  |
-
-注：以 **\*** 标记的数据模型已经基本不再使用。
 
 ### 扩展整数类型
 

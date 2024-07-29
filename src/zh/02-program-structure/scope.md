@@ -331,7 +331,7 @@ using namespace_name :: name;
 
 整个 `using` 声明组成了一个[声明语句](./statements.md#声明语句)。`using` 声明可以在任何作用域内使用。
 
-`using` 声明引入的名称，可以在引入的作用域内直接使用，不需要有限定名称。例如：
+以 `using` 声明引入名称后，在这个作用域剩下的范围内，使用 `name` 就如同使用 `namespace_name :: name` 一样。例如：
 ```cpp
 namespace A {
     int a = 1;

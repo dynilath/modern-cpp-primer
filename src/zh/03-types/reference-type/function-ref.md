@@ -94,5 +94,67 @@ int add(int,int); // 函数声明，为了简便起见，省略了函数体
 
 ## 在返回值中使用函数引用
 
-::: important TODO: 补充内容
-:::
+函数引用也可以作为函数的返回值，例如：
+```cpp
+using binary_int_func = int(int, int);
+
+binary_int_func& get_add() {
+    return add;
+}
+
+auto& add_ref = get_add(); // add_ref 是 add 函数的引用
+int result = add_ref(1, 2); // 调用 add 函数
+```
+
+在这里，`get_add` 函数返回了 `add` 函数的引用，然后我们可以通过 `add_ref` 来调用 `add` 函数。
+
+当然，`get_add` 可以调用再紧跟调用，不需要额外的变量：
+```cpp
+int result = get_add()(1, 2); // 调用 add 函数
+```
+
+结合之前提到[switch 语句](../../02-program-structure/statements.md#switch-语句)的例子，我们可以把 `get_add` 函数进一步扩展：
+```cpp
+using binary_int_func = int(int, int);
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int sub(int a, int b) {
+    return a - b;
+}
+
+int mul(int a, int b) {
+    return a * b;
+}
+
+int div(int a, int b) {
+    return a / b;
+}
+
+int no_such_operator(int a, int b) {
+    return 0;
+}
+
+binary_int_func& get_func(char op) {
+    switch (op) {
+        case '+':
+            return add;
+        case '-':
+            return sub;
+        case '*':
+            return mul;
+        case '/':
+            return div;
+        default:
+            return no_such_operator;
+    }
+}
+```
+
+这样，我们就可以通过 `get_func` 来获取不同的函数引用，然后调用这些函数。例如：
+
+```cpp
+int result = get_func('+')(1, 2); // 调用 add 函数
+```

@@ -89,20 +89,20 @@ auto a = 42;
 auto b = a;
 ```
 
-此外，`auto`也可以用于函数参数和返回值的类型推导：
+此外，`auto`也可以用于函数返回值的类型推导：
 
 ```cpp
-auto sqrt(auto x) {
-    auto a = x;
-    while (a * a > x) {
-        a = (a + x / a) / 2;
-    }
-    return a;
+int x = 0;
+
+auto doubled_x() {
+    x *= 2;
+    return x;
 }
 
-// 由于 42 是 int 类型，x 的类型也是 int
-// 因此 foo 返回值的类型推导为 int，a 的类型也是 int
-auto a = foo(42); 
+// 由于 x 是 int 类型
+// 因此 doubled_x 的返回值类型是 int
+// 因此 a 的类型是 int
+auto a = doubled_x(); 
 ```
 
 对于目前的内容而言，读者可能会觉得 `auto` 的使用并不是很有必要，甚至会觉得 `auto` 的使用会使代码变得不够清晰。但是在后面的章节中，我们会逐渐看到 `auto` 的使用能够让复杂的程序变得简洁明了且更易维护。

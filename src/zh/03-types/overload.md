@@ -2,6 +2,98 @@
 title: 3.6 初识重载
 ---
 
+## 简单重载
+
+考虑如下的两个函数（读者如果已经忘记了函数的形式参数的名字是可以省略的，可以回顾一下[前面的章节](../02-program-structure/function.md)）。
+
+```cpp
+int sqrt(int);
+long long sqrt(long long);
+double sqrt(double);
+long double sqrt(long double);
+```
+
+这两个函数有完全相同的名称，当写下如下的函数调用的时候，会发生什么？
+```cpp
+sqrt(42);
+```
+
+这里，编译器会根据 `42` 的类型，选择调用 `int sqrt(int)` 或 `long long sqrt(long long)`。由于 `42` 是 `int` 类型的字面量，因此会调用 `int sqrt(int)`。
+
+这种根据参数类型的不同而选择不同的函数的特性，称为**重载**。 
+
+## 重载的作用
+
+重载通常用于实现相似功能的函数，但是参数类型不同。例如这里提到的 `sqrt` 函数，对于不同的整数类型，都可以计算平方根。但人们往往不会不希望把所有的整数都转成`long long` 类型再计算，以及把所有的浮点数都转成 `long double` 类型再计算。人们一般只想使用那个效率最高且能满足需求的函数。如果不使用重载，这种需求就会变成如下的形式：
+
+```cpp
+int sqrt_int(int);
+long long sqrt_long_long(long long);
+double sqrt_double(double);
+long double sqrt_long_double(long double);
+```
+
+这样，调用 `sqrt_XXX` 函数的时候，就需要根据参数的类型选择不同的函数，用户每次调用 `sqrt_XXX` 函数都需要考虑参数的类型。例如：
+
+```cpp
+void some_function(){
+    /** 一些代码 */
+    int value = make_some_value();
+    /** 一些代码 */
+    int temp_value = sqrt_int(value);
+    /** 一些代码 */
+    int temp_value2 = sqrt_int(value2);
+    /** 一些代码 */
+}
+```
+
+如果代码进行了一些改动，`make_some_value` 的返回类型发生了变化，那么所有的 `sqrt_XXX` 函数的调用都需要修改，产生与代码规模正相关的工作量。例如，如果 `make_some_value` 的返回类型从 `int` 变成了 `long long`，那么上面的代码就需要修改为：
+
+```cpp
+void some_function(){
+    /** 一些代码 */
+    long long value = make_some_value();
+    /** 一些代码 */
+    long long temp_value = sqrt_long_long(value);
+    /** 一些代码 */
+    long long temp_value2 = sqrt_long_long(value2);
+    /** 一些代码 */
+}
+```
+
+这会导致代码越多，修改的工作量就越大。最终导致代码维护成本难以控制。
+
+我们不妨看看 `sqrt` 使用重载来实现，并且用上 `auto` 类型推导会如何：
+
+```cpp
+void some_function(){
+    /** 一些代码 */
+    auto value = make_some_value();
+    /** 一些代码 */
+    auto temp_value = sqrt(value);
+    /** 一些代码 */
+    auto temp_value2 = sqrt(value2);
+    /** 一些代码 */
+}
+```
+
+此时，即使 `make_some_value` 的返回类型发生了变化，`some_function` 中，（至少这里写出的部分）完全不需要进行任何修改。这样，代码的维护成本就大大降低了。
+
+## 算数类型的重载
+
+::: important TODO: 补充内容
+:::
+
+## 涉及 `const` 和 `volatile` 的重载
+
+::: important TODO: 补充内容
+:::
+
+## 左值引用和右值引用的重载
+
+::: important TODO: 补充内容
+:::
+
 ## `auto` 参数的函数
 
 ::: important TODO: 润色与细化描述

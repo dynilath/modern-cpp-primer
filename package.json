@@ -16,6 +16,7 @@
     "@vuepress/bundler-webpack": "2.0.0-rc.19",
     "@vuepress/plugin-redirect": "2.0.0-rc.78",
     "@vuepress/plugin-register-components": "2.0.0-rc.66",
+    "@vuepress/plugin-revealjs": "2.0.0-rc.47",
     "markmap-lib": "^0.18.11",
     "markmap-toolbar": "^0.18.10",
     "markmap-view": "^0.18.10",

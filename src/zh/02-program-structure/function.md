@@ -87,7 +87,9 @@ int sqrt(int x) {
 
 ## 函数的调用
 
-函数的调用是一种[后缀表达式](./expression.md#后缀表达式)，其形式是：
+### 函数调用表达式
+
+函数的调用是一种[后缀表达式](./expression/posix-expr.md)，其形式是：
 ```cpp
 function_name ( argument_list ) 
 ```
@@ -96,18 +98,18 @@ function_name ( argument_list )
 
 其中，参数列表是用逗号分隔的表达式序列，形式是：
 
-- ① `assign_expression`
-- ② `argument_list , assign_expression`
+- `assign_expression`
+- `argument_list , assign_expression`
 
-这里，`assign_expression` 是[赋值表达式](./expression.md#赋值表达式)。
+这里，`assign_expression` 是[赋值表达式](./expression/assign-expr.md)。
 
 ::: info 参数列表与逗号表达式
-参数列表看起来和[逗号表达式](./expression.md#逗号表达式)很像，但是它们是不同的。
+参数列表看起来和[逗号表达式](./expression/comma-expr.md)很像，但是它们是不同的。
 
 逗号表达式可以单独作为一个表达式语句，并且逗号表达式的值是最后一个表达式的值。例如：
 ```cpp
 a = 1, b = 2; // 两个赋值表达式组成的逗号表达式，a 的值是 1
-a = (1, 2); // a 的值是 2
+a = (1, 2); // (1, 2) 是逗号表达式，a 的值是 2
 ```
 
 而参数列表只能作为函数调用表达式的一部分，参数列表各个表达式的值会被依次用来初始化函数的参数。
@@ -131,25 +133,44 @@ int sqrt_x = sqrt(x + 1);
 甚至我们可以用函数调用表达式作为参数：
 ```cpp
 int x = 42;
-int sqrt_x = sqrt(sqrt(x + 1) + 1);
+int sqrt_x = sqrt(sqrt(x + 1));
 ```
+
+前面提到，参数可以是赋值表达式，因此这样也可以：
+```cpp
+int x = 42;
+int sqrt_x = sqrt(x += 43);
+```
+
+### 函数调用的计算过程
 
 函数调用表达式的计算过程是：
 1. 计算函数调用表达式中的参数列表中，每个参数的值，初始化函数的参数
 2. 依次执行函数体中的语句，直到函数执行结束
 3. 将结束函数调用所使用的 `return` 语句种表达式的值作为函数调用表达式的值
 
-在上面的例子中，这一段代码
+考虑这一段代码，仍然使用这一段 `sqrt` 函数的代码：
 ```cpp
-int x = 42;
-int sqrt_x = sqrt(x + 1);
+int sqrt(int x) {
+    int a = x;
+    while (a * a > x) {
+        a = (a + x / a) / 2;
+    }
+    return a;
+}
+
+int xn = 42;
+int sqrt_x = sqrt(xn + 1);
 ```
-的执行过程是：
-1. 初始化 `x` 的值为 `42`
-1. 计算 `x + 1` 的值，得到 `43`
-2. 用 `43` 初始化 `sqrt` 函数的参数 `x`
-3. 执行 `sqrt` 函数体中的语句，直到函数执行结束，此时返回语句 `return a;` 的表达式是 `a`，即 `a` 的值，得到 `6`
-4. 将 `6` 作为 `sqrt(x + 1)` 的值，初始化 `sqrt_x`
+
+整个代码的执行过程是：
+1. 初始化 `xn` 的值为 `42`
+2. 计算 `xn + 1` 的值，得到 `43`
+3. 用 `43` 初始化 `sqrt` 函数的参数 `x`
+4. 执行 `sqrt` 函数体中的语句，直到函数执行结束，此时返回语句 `return a;` 的表达式是 `a`，即 `a` 的值，得到 `6`
+5. 将 `6` 作为 `sqrt(x + 1)` 的值，初始化 `sqrt_x`
+
+初学者常常会弄混 `x` 和 `xn` 的区别。需要记住，进入函数体前，会使用参数列表中的值（这里是 `xn + 1`）初始化函数的参数（`x`），函数体中这个 `x` 的[作用域](./scope.md)只在函数体内部，不会影响函数调用表达式中的参数。
 
 这样，我们只需要调用 `sqrt` 函数十次，就可以得到十个 `sqrt_x` 的值，而不需要把这个计算过程抄十次。如下：
 ```cpp

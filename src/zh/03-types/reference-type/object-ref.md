@@ -268,6 +268,22 @@ set_a_to(a); // a 是左值，也可以传入
 
 这个 `set_a_to` 函数当然也可以使用 `int` 类型作为参数，但当类型更为复杂，构造参数的成本也不得不被考虑时，常量左值引用的作用就会凸显出来。
 
+## 常量左值引用的语法结构
+
+前面我们介绍了 `const int&` 这种形式的常量左值引用。考虑引用的语法形式 `type_name &`，所以这里引用指代的类型是 `const int` 而不是 `int`。换句话说，`const` 限定的是 `int` 类型，而非 `int &` 这个引用类型。
+
+在[const限定](../cv-qualifiers.md)一章中，我们提到限定符的顺序是可以交换的，`const int` 和 `int const` 是等价的。因此，`const int&` 和 `int const&` 是等价的。
+
+但需要注意，C++ 规定，引用类型本身是不能被限定的，因此 `int& const` 是错误的写法。
+
+此外，使用别名处理时，添加在引用类型上的限定符会被忽略，例如：
+```cpp
+using int_ref = int&;
+using const_int_ref = const int_ref; // const_int_ref 是 int& 类型，而非 const int&
+
+int a = 1;
+const int_ref ref = a; // ref 是 int& 类型
+```
 
 ## 悬垂引用
 

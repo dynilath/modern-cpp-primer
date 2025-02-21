@@ -77,19 +77,138 @@ void some_function(){
 }
 ```
 
-此时，即使 `make_some_value` 的返回类型发生了变化，`some_function` 中，（至少这里写出的部分）完全不需要进行任何修改。这样，代码的维护成本就大大降低了。
+假如此时 `make_some_value` 的返回类型发生了变化，`some_function` 中，这段代码
+```cpp
+auto temp_value = sqrt(value);
+```
+会变成
+```cpp
+auto temp_value = sqrt(value); // 是的，对于程序员写下的代码来说，完全没有变化
+```
+于是，上面写出来的部分完全不需要进行任何修改。这样，代码的维护成本就大大降低了。
 
-## 算数类型的重载
+## 重载决议
 
-::: important TODO: 补充内容
+重载决议是编译器在多个候选函数中选择最合适版本的过程。这个过程分为三个阶段：
+
+- **候选函数收集**：查找与被调用函数同名且在作用域内的所有函数声明
+- **可行函数筛选**：排除参数数量不匹配或无法隐式转换参数类型的候选
+- **最佳匹配选择**：根据优先级确定最优匹配
+
+### 候选函数收集
+
+简单来说，候选函数是指与被调用函数同名，并且在相同作用域内的所有函数声明。例如：
+
+```cpp
+void foo(int a);
+void foo(int a, int b);
+void foo(double a);
+
+namespace example {
+void foo(int a);
+void foo(int a, int b);
+void foo(double a);
+}
+
+foo(1); // 候选函数集合为 {foo(int), foo(int, int), foo(double)}
+example::foo(2); // 候选函数集合为 {example::foo(int), example::foo(int, int), example::foo(double)}
+```
+
+这里调用 `foo(1)` 时，会在全局作用域中查找 `foo` 函数，而调用 `example::foo(2)` 时，会在 `example` 命名空间中查找 `foo` 函数。
+
+这里要考虑[`using` 声明](../02-program-structure/scope.md#using-声明)和[`using` 指令](../02-program-structure/scope.md#using-namespace-指令) 的影响。
+
+对于 `using` 声明，它将接下来的名称替换为一个限定的名称，例如：
+
+```cpp
+void foo(int a);
+
+namespace example { 
+void foo(int a);
+}
+
+int main() {
+    using example::foo;
+    foo(1); // 候选函数集合为 {example::foo(int)}，而不包括 {foo(int)}
+}
+```
+
+对于 `using` 指令，它将整个命名空间的名称引入当前作用域，例如：
+
+```cpp
+void foo(int a);
+
+namespace example {
+void foo(int a);
+}
+
+int main() {
+    using namespace example;
+    foo(1); // 候选函数集合为 {foo(int), example::foo(int)}，这里会因为无法决定用哪个而报错
+}
+```
+
+::: info using namespace std;
+在 C++ 中，有一个特殊的命名空间 `std`，其中包含了大量的标准库函数和对象。
+在一些快速开发测试的情况，程序员不会定义很多函数，而倾向于直接使用标准库。这时候就会 `using namespace std;` 语句，将 `std` 命名空间中的所有名称引入当前作用域，省去每次都写 `std::` 的麻烦。
+但是，对于较大的项目而言，这样会把大量的名称引入当前作用域，可能会导致名称冲突。
 :::
 
-## 涉及 `const` 和 `volatile` 的重载
+### 可行函数筛选
 
-::: important TODO: 补充内容
+在候选函数集合中，会排除那些参数数量不匹配，或者参数无法转换过去的函数。例如：
+
+```cpp
+void foo(int a, int b);
+void foo(int a);
+
+foo(1); 
+// 候选函数集合为 {foo(int), foo(int, int)}
+// 其中，foo(int, int) 无法匹配参数 1，不是可行函数，因此调用 foo(int)
+```
+
+### 最佳匹配选择
+
+在可行函数集合中，会根据参数的类型和优先级选择最佳匹配的函数。例如：
+
+```cpp
+void foo(int a);
+void foo(double a);
+
+foo(1); // 调用 foo(int)
+```
+
+这里简单概括一下最佳匹配的规则：
+- 如果有类型完全匹配的函数，选择这个函数
+- 否则，选择最接近的类型
+
+如果此时无法判断调用哪个函数，编译器会报错。例如：
+
+```cpp
+void foo(bool a);
+void foo(short a);
+
+foo(1); // [!code error] // 无法判断调用哪个函数
+```
+
+::: info 浮点与整数
+C++ 中常常被认为比较糟糕的一点是，浮点数和整数之间是可转换的。例如：
+
+```cpp
+int a = 1.1; // a 的值是 1，浮点转换到整数，截断小数部分
+```
+
+只有上述这种情况，问题看起来并不大，但当我们考虑函数重载时：
+
+```cpp
+void foo(int a);
+void foo(float a);
+
+foo(1.1); // [!code error] // 无法判断调用哪个函数
+```
 :::
 
-## 左值引用和右值引用的重载
+### 左值引用和右值引用的重载
 
 ::: important TODO: 补充内容
 :::
@@ -99,7 +218,7 @@ void some_function(){
 ::: important TODO: 润色与细化描述
 :::
 
-在声明函数类型时，并不能推导出函数调用类型为何，因此在声明函数类型时，必须显式指定参数类型，而不能使用 `auto`。例如：
+在声明函数类型时，并不能推导出函数参数类型为何，因此在声明函数类型时，必须显式指定参数类型，而不能使用 `auto`。例如：
 ```cpp
 using binary_int_func = int(auto, auto); // [!code error] // 错误，auto 不能用在这里
 ```

@@ -83,7 +83,7 @@ using binary_int_func_ref = int(&)(int, int);
 
 为什么在这里？因为 `&` 作为一个修饰符应当出现在那个标识符的前面，而函数的参数应当出现在标识符的后面，这种期待声明、类型、调用的形式统一的设计是从 C 语言中继承下来的。
 
-使用[旧式类型别名](./type-intro.md#旧式类型别名) `typedef` 时，这种体现会更加明显：
+使用[旧式类型别名](../type-intro.md#旧式类型别名) `typedef` 时，这种体现会更加明显：
 ```cpp
 typedef int binary_int_func(int, int); // 声明了一个函数类型
 typedef int (&binary_int_func_ref)(int, int); // 声明了一个函数引用类型

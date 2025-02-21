@@ -34,9 +34,9 @@ sizeof (type_id)
 ```cpp
 sizeof expression
 ```
-其中，`sizeof` 是一个关键字，在这里作为一个运算符。`type_id` 需要是一个完整类型，`expression` 是[一元表达式](./expression.md#一元表达式)。
+其中，`sizeof` 是一个关键字，在这里作为一个运算符。`type_id` 需要是一个完整类型，`expression` 是[一元表达式](./expression/unary-expr.md)。
 
-`sizeof` 表达式是一个[一元表达式](./expression.md#一元表达式)，其值是一个 `size_t` 类型的值，表示对象的大小。`size_t` 是一个无符号的整数类型（不会有负数），其值足以表达当前平台上任意对象的大小。例如：
+`sizeof` 表达式是一个[一元表达式](./expression/unary-expr.md)，其值是一个 `size_t` 类型的值，表示对象的大小。`size_t` 是一个无符号的整数类型（不会有负数），其值足以表达当前平台上任意对象的大小。例如：
 
 ```cpp
 int a;

@@ -238,7 +238,7 @@ namespace A {
 int b = A::a; // 通过有限定名称访问 A 命名空间中的 a
 ```
 
-有限定名称作为表达式时，是一个[基本表达式](./expression.md#基本表达式)。
+有限定名称作为表达式时，是一个[基本表达式](./expression/primary-expr.md)。
 
 ### 命名空间的嵌套
 

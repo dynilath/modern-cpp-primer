@@ -159,9 +159,9 @@ long my_int x = 42;  // [!code error] // 错误：long my_int 不能组成 long 
 
 ### 整数类型的运算
 
-整数类型的运算基本与[表达式](../02-program-structure/expression.md)章节中介绍的一致，除了由于位宽和 `int` 不同，结果的范围有所不同。
+整数类型的运算基本与[表达式](../02-program-structure/expression/brief.md)章节中介绍的一致，除了由于位宽和 `int` 不同，结果的范围有所不同。
 
-在前面[加性表达式和乘性表达式](../02-program-structure/expression.md#加性表达式和乘性表达式)的章节中提到过，如果 `int` 类型表达式的计算结果超出了 `int` 类型的范围，那么结果是未定义的。这种性质对其他有符号整数类型也是适用的。
+在前面[加性表达式和乘性表达式](../02-program-structure/expression/add-mull-expr.md)的章节中提到过，如果 `int` 类型表达式的计算结果超出了 `int` 类型的范围，那么结果是未定义的。这种性质对其他有符号整数类型也是适用的。
 
 但是，对于无符号整数类型，例如 `unsigned int`，标准保证运算是模运算。即，如果结果超出了类型的范围，那么结果会被取模到类型的范围内。例如：
 
@@ -176,7 +176,7 @@ unsigned int c = a + b;
 
 ### 整数提升
 
-之前的章节中介绍过，在计算 [乘性表达式](../02-program-structure/expression.md#乘性表达式) 时，如果操作数是 `bool` 或者 `char` 时，会转换为 `int` 类型。这种转换称为整数提升。
+之前的章节中介绍过，在计算 [乘性表达式](../02-program-structure/expression/add-mull-expr.md#乘性表达式) 时，如果操作数是 `bool` 或者 `char` 时，会转换为 `int` 类型。这种转换称为整数提升。
 
 这个规则具体而言是：
 - 如果操作数是除了 `bool`、`char8_t`、`char16_t`、`char32_t`、`wchar_t` 之外的、比 `int` 更小的整数类型，如果 `int` 能容纳操作数的值，那么将操作数转换为 `int` 类型。否则，将操作数转换为 `unsigned int` 类型。（例如，`char` 和 `short` 类型会被提升为 `int` 类型）
@@ -277,15 +277,15 @@ C++ 中默认提供的浮点类型包括：
 
 ### 浮点计算
 
-浮点数类型不能进行全部的前面[表达式](../02-program-structure/expression.md)所介绍的运算。浮点数的计算是按照 IEEE-754 标准进行的，这主要包括：
+浮点数类型不能进行全部的前面[表达式](../02-program-structure/expression/brief.md)所介绍的运算。浮点数的计算是按照 IEEE-754 标准进行的，这主要包括：
 
-- [后缀自增](../02-program-structure/expression.md#后缀自增运算符)和[前缀自增](../02-program-structure/expression.md#前缀自增运算符)：将操作数浮点数的值增加1。
-- [后缀自减](../02-program-structure/expression.md#后缀自减运算符)和[前缀自减](../02-program-structure/expression.md#前缀自减运算符)：将操作数浮点数的值减少1。
-- [正运算符](../02-program-structure/expression.md#正运算符)：表达式的值与操作数相同。
-- [负运算符](../02-program-structure/expression.md#负运算符)：将操作数的符号取反。
-- [加性表达式和乘性表达式](../02-program-structure/expression.md#加性表达式和乘性表达式)：如同数学计算，表达式的值是将操作数的值进行计算。由于浮点数存在精度，因此在计算时可能会有舍入。浮点数不能进行模运算（`%`）。
-- [关系表达式](../02-program-structure/expression.md#关系表达式)：如同数学比较。不过浮点数有一些特殊值，这在后面进行介绍。三路比较时，浮点数的比较结果是 `std::partial_ordering` 类型，会出现一个特殊的“无顺序”结果。
-- [赋值表达式](../02-program-structure/expression.md#赋值表达式)：如同整数的赋值。
+- [后缀自增](../02-program-structure/expression/posix-expr.md#后缀自增运算符)和[前缀自增](../02-program-structure/expression/unary-expr.md#前缀自增运算符)：将操作数浮点数的值增加1。
+- [后缀自减](../02-program-structure/expression/posix-expr.md#后缀自减运算符)和[前缀自减](../02-program-structure/expression/unary-expr.md#前缀自减运算符)：将操作数浮点数的值减少1。
+- [正运算符](../02-program-structure/expression/unary-expr.md#正运算符)：表达式的值与操作数相同。
+- [负运算符](../02-program-structure/expression/unary-expr.md#负运算符)：将操作数的符号取反。
+- [加性表达式和乘性表达式](../02-program-structure/expression/add-mull-expr.md)：如同数学计算，表达式的值是将操作数的值进行计算。由于浮点数存在精度，因此在计算时可能会有舍入。浮点数不能进行模运算（`%`）。
+- [关系表达式](../02-program-structure/expression/rel-expr.md)：如同数学比较。不过浮点数有一些特殊值，这在后面进行介绍。三路比较时，浮点数的比较结果是 `std::partial_ordering` 类型，会出现一个特殊的“无顺序”结果。
+- [赋值表达式](../02-program-structure/expression/assign-expr.md)：如同整数的赋值。
 
 简单的来看，浮点数和整数具有的运算基本相同，但是和位运算相关的部分则不适用于浮点数。
 
@@ -376,7 +376,7 @@ int conversion(int x) {
 int c = conversion(3.14); // c 的值是 3
 ```
 
-如果截断之后，浮点数的值超出了整数类型的范围，这时行为是[未定义行为](../02-program-structure/expression.md#未定义行为)。
+如果截断之后，浮点数的值超出了整数类型的范围，这时行为是[未定义行为](../02-program-structure/expression/brief.md#未定义行为)。
 
 使用整数类型也可以初始化浮点数类型，这时候整数会被转换为浮点数，例如：
 
@@ -386,7 +386,7 @@ double d = 42; // d 的值是 42.0
 
 此外，如果转换不能保证精度，那么实现可以选择向上或者向下舍入；对于 IEEE-754 标准的浮点数，这种转换会转换到最近的浮点数。
 
-如果转换之后，整数的值超出了浮点数类型的范围，这时行为是[未定义行为](../02-program-structure/expression.md#未定义行为)。
+如果转换之后，整数的值超出了浮点数类型的范围，这时行为是[未定义行为](../02-program-structure/expression/brief.md#未定义行为)。
 
 ## 一般算术转换
 
@@ -395,12 +395,12 @@ double d = 42; // d 的值是 42.0
 现在，我们来综合地介绍一下。在需要操作数是算术类型的表达式中，会进行一些形式相似的转换，这种转换称为**一般算术转换**。
 
 对于算术类型，下列的表达式会先对操作数进行一般算术转换：
-- [正运算符](../02-program-structure/expression.md#正运算符)
-- [负运算符](../02-program-structure/expression.md#负运算符)
-- [按位取反](../02-program-structure/expression.md#按位取反)
-- [加性表达式和乘性表达式](../02-program-structure/expression.md#加性表达式和乘性表达式)
-- [移位表达式](../02-program-structure/expression.md#移位表达式)
-- [按位逻辑表达式](../02-program-structure/expression.md#按位逻辑表达式)
+- [正运算符](../02-program-structure/expression/unary-expr.md#正运算符)
+- [负运算符](../02-program-structure/expression/unary-expr.md#负运算符)
+- [按位取反](../02-program-structure/expression/unary-expr.md#按位取反)
+- [加性表达式和乘性表达式](../02-program-structure/expression/add-mull-expr.md#加性表达式和乘性表达式)
+- [移位表达式](../02-program-structure/expression/shift-expr.md#移位表达式)
+- [按位逻辑表达式](../02-program-structure/expression/logic-expr.md#按位逻辑表达式)
 
 ### 转换等级
 在一般算术转换中，整数转换遵循如下的整数转换等级：

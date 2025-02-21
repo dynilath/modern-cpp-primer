@@ -1,14 +1,20 @@
-name: docs
+name: Deploy to Github Pages
 
 on:
-  # trigger deployment on every push to main branch
   push:
     branches: [main]
-  # trigger deployment manually
-  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
 
     steps:

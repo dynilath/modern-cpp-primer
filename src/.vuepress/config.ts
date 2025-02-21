@@ -10,6 +10,7 @@ export default defineUserConfig({
   base: "/modern-cpp-primer/",
 
   locales: {
+    "/": {}, // 绕过vuepress的bug
     "/en/": {
       lang: "en-US",
       title: "Modern C++ Primer",
@@ -24,10 +25,13 @@ export default defineUserConfig({
     registerComponentsPlugin({
       components: {
         Choices: path.resolve(__dirname, "./components/Choices.vue"),
-        ShikiRenderer: path.resolve(__dirname, "./components/ShikiRenderer.vue"),
+        ShikiRenderer: path.resolve(
+          __dirname,
+          "./components/ShikiRenderer.vue"
+        ),
         DecOctHex: path.resolve(__dirname, "./components/DecOctHex.vue"),
         Binary32: path.resolve(__dirname, "./components/Binary32.vue"),
-      }
+      },
     }),
-  ]
+  ],
 });

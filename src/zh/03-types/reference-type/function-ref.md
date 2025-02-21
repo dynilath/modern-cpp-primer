@@ -158,3 +158,22 @@ binary_int_func& get_func(char op) {
 ```cpp
 int result = get_func('+')(1, 2); // 调用 add 函数
 ```
+
+## 函数右值引用
+
+函数引用也可以是右值引用，例如：
+```cpp
+using binary_int_func = int(int, int);
+
+int add(int a, int b) {
+    return a + b;
+}
+
+binary_int_func&& get_add() {
+    return add;
+}
+```
+
+你可能会奇怪，这里的 `add` 在前面的例子里，似乎是绑定到左值引用的，这里为什么能绑定到右值引用？这是 C++ 为了方便使用所做的规定，右值引用和左值引用都可以绑定到函数，并得到一个有效的函数引用。
+
+函数不是对象，也没有赋值的事情，不需要区分左值和右值。这里不区分左值和右值的设计可以让一些代码的设计更为简洁，在后面的章节中我们会看到相关例子。

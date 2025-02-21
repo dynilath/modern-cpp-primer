@@ -1,5 +1,3 @@
-
-
 .option-label {
     z-index: 1;
     display:flex;
@@ -13,32 +11,6 @@
 }
 
 .option-label pre code {
-    background: transparent;
-}
-
-.code-container{
-    position: relative;
-    border-radius: 6px;
-    font-size: 16px;
-}
-
-.code-container pre {
-    display: block;
-    position: relative;
-    z-index: 1;
-    overflow: auto;
-    border-radius: 6px;
-    font-size: 16px;
-    background: var(--code-bg-color) !important;
-    line-height: 1.6;
-}
-
-.code-container pre code {
-    display: block;
-    box-sizing: border-box;
-    width: fit-content;
-    border-radius: 0;
-    padding: 1.25rem;
     background: transparent;
 }
 

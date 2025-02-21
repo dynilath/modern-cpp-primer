@@ -1,21 +1,26 @@
 <template>
   <div class="multiple-choice-question">
     <p>{{ text }}</p>
-    <div class="code-container" v-if="code">
+    <div v-if="code">
       <ShikiRenderer :code="code" language="cpp"/>
     </div>
     <div v-for="(option, index) in options" :key="index" class="option">
       <label>
         <div class="option-label">
           <input type="checkbox" :value="option" v-model="selectedOptions"/>
-          <ShikiRenderer :code="option" language="text"/>
+          <ShikiRenderer :code="option" type="item" language="text"/>
         </div>
       </label>
     </div>
     <button class="custom-button" @click="submitAnswer">提交</button>
-    <div v-if="showFeedback">
+    <div v-if="showFeedback" class="feedback">
       <p v-if="isCorrect">回答正确</p>
-      <p v-else>回答错误，正确答案是：{{ answers.join(', ') }}</p>
+      <div v-else>
+        <p>回答错误，正确答案是：</p>
+        <div v-for="(answer, index) in answers" :key="index">
+          <ShikiRenderer :code="answer" type="item" language="text"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -109,13 +114,19 @@ export default {
   border: 1px solid var(--theme-color);
   display: inline;
 
-  background-color: var(--bg-color-secondary);
-  color: var(--theme-color);
+  background-color: var(--vp-c-accent-soft);
+  color: var(--vp-c-accent);
 
   font-size: 1rem;
   font-weight: 500;
   line-height: 2.5;
   text-decoration: none !important;
+}
+
+.feedback {
+  padding: 1.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--vp-c-accent-soft);
 }
 
 .custom-button:hover{

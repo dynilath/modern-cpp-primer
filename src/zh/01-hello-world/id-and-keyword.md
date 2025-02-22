@@ -32,7 +32,9 @@ int main() {
 
 ## 关键字
 
-在 C++ 中，有一些特殊的标识符，这些标识符被称为关键字。关键字被保留为特殊用途，不能被程序员使用、命名其它实体。例如，`int` 是一个关键字，程序员不能将 `int` 作为对象、函数、类型的名字。  
+在 C++ 中，有一些看起来是标识符、但是被保留它用的为关键字。关键字被保留为特殊用途，不能被程序员使用、命名其它实体。例如，`int` 是一个关键字，程序员不能将 `int` 作为对象、函数、类型的名字。  
+
+关键字和标识符有相同的组成规则（由字母、数字和下划线组成），但是关键字不是标识符。
 
 下面列出了 C++ 中的所有关键字：
 
@@ -91,7 +93,7 @@ int main() {
             text: '下面的代码中，有哪些是标识符？',
             code: 'const int a = 1;',
             options: ['const', 'int', 'a', '=', '1'],
-            answers: ['const', 'int', 'a']
+            answers: ['a']
         },
         {
             text: '下面的代码中，有哪些是关键字？',
@@ -103,13 +105,13 @@ int main() {
             text: '下面的代码中，有哪些是标识符？',
             code: 'int plus_one(int a) { \n    return a + 1; \n}',
             options: ['int', 'plus_one', 'a', 'return', '1', '+', ';'],
-            answers: ['plus_one', 'int', 'a', 'return']
+            answers: ['plus_one', 'a']
         },
         {
             text: '下面的代码中，有哪些是标识符？',
             code: '#include <iostream> \nint main() { \n    std::cout << &#34;Hello, World&#34;; \n}',
             options: ['include', 'iostream', 'int', 'main', 'std', 'cout', '<<', '&#34Hello, World&#34', ';'],
-            answers: ['int', 'main', 'std', 'cout']
+            answers: ['main', 'std', 'cout']
         },
         {
             text: '下面的代码中，有哪些是关键字？',

@@ -14,9 +14,9 @@
     </div>
     <button class="custom-button" @click="submitAnswer">提交</button>
     <div v-if="showFeedback" class="feedback">
-      <p v-if="isCorrect">回答正确</p>
+      <p v-if="isCorrect" class="correct">回答正确</p>
       <div v-else>
-        <p>回答错误，正确答案是：</p>
+        <p class="wrong">回答错误，正确答案是：</p>
         <div v-for="(answer, index) in answers" :key="index">
           <ShikiRenderer :code="answer" type="item" language="text"/>
         </div>
@@ -124,9 +124,19 @@ export default {
 }
 
 .feedback {
-  padding: 1.75rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
   border-radius: 0.5rem;
-  background-color: var(--vp-c-accent-soft);
+  background-color: var(--code-c-bg);
+}
+
+.feedback .correct {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.feedback .wrong {
+  margin-top: 0;
 }
 
 .custom-button:hover{

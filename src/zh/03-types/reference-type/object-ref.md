@@ -81,8 +81,8 @@ C++ 的语法是上下文相关的，相同的代码在不同的上下文中可�
 ```cpp
 int a = 1, b = 2;
 int& ref = a;
-int& ref2 = 1; // [!code error] // 错误，表达式 1 不是左值
-int& ref3 = a + b; // [!code error] // 错误，表达式 a + b 不是左值
+int& ref2 = 1; // 错误，表达式 1 不是左值 // [!code error] 
+int& ref3 = a + b; // 错误，表达式 a + b 不是左值 // [!code error] 
 int& ref4 = true ? a : b; // 正确，这个条件表达式是左值，ref4 绑定到 a
 ```
 
@@ -167,9 +167,9 @@ max(a, b) = 4; // 由于 max 返回的是引用，因此可以直接修改返回
 int a = 1, b = 2;
 
 int&& ref = 1; // 正确，1 是右值
-int&& ref2 = a; // [!code error] // 错误，a 是左值
+int&& ref2 = a; // 错误，a 是左值 // [!code error] 
 int&& ref3 = a + b; // 正确，a + b 是右值
-int&& ref4 = true ? a : b; // [!code error] // 错误，这个条件表达式是左值
+int&& ref4 = true ? a : b; // 错误，这个条件表达式是左值 // [!code error] 
 ```
 
 观察下面的代码：
@@ -219,7 +219,7 @@ set_a_to(a + 1); // a + 1 是纯右值表达式
 
 当然，这个函数不接受左值表达式作为参数，例如：
 ```cpp
-set_a_to(a); // [!code error] // 错误，a 是左值表达式
+set_a_to(a); // 错误，a 是左值表达式 // [!code error] 
 ```
 
 函数返回值中当然也可以使用右值引用，其作用和左值引用相似，但是二者的差异涉及**重载**的知识，在本章后面的部分会介绍相关内容，这里暂且放下。
@@ -299,7 +299,7 @@ int&& max(int&& a, int&& b) {
     }
 }
 
-max(1, 2) = 3; // [!code error] // 错误，试图使用悬垂引用
+max(1, 2) = 3; // 错误，试图使用悬垂引用 // [!code error] 
 ```
 
 在这个例子中，`max` 函数的两个参数绑定到了从字面量 `1` 和 `2` 构造的临时对象。这两个临时对象的生命期在 `max` 函数返回后结束，但是 `ref` 仍然绑定到这两个临时对象中的较大者。
@@ -317,7 +317,7 @@ const int& max(const int& a, const int& b) {
 }
 
 const int& ref = max(1, 2); // ref 是悬垂引用，由于不能写入，因此显得很隐晦
-const int& ref2 = max(ref, 3); // ![!code error] // 错误，试图使用悬垂引用
+const int& ref2 = max(ref, 3); // 错误，试图使用悬垂引用 // [!code error]
 ```
 
 ::: info 没有更好的办法

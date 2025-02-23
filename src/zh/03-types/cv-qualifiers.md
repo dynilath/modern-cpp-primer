@@ -23,7 +23,7 @@ const volatile int c = 15; // c 的类型是 const volatile int
 
 限定符必须和类型一起使用，不能单独使用。例如：
 ```cpp
-const d = 20; // [!code error] // 错误，缺少类型
+const d = 20; // 错误，缺少类型 // [!code error] 
 ```
 
 ## const 限定符
@@ -31,7 +31,7 @@ const d = 20; // [!code error] // 错误，缺少类型
 `const` 限定的类型的对象不能被修改。例如：
 ```cpp
 const int a = 5;
-a = 10; // [!code error] // 错误，a 是 const 类型，不能被修改
+a = 10; // 错误，a 是 const 类型，不能被修改 // [!code error] 
 ```
 
 但是，只要不修改 `const` 限定的对象，可以在任何表达式里使用这个对象。例如：
@@ -44,7 +44,7 @@ int b = (a + 5) * 2; // b 被初始化为 20
 
 于是，C++ 规定，`const` 限定的对象必顺提供初始化器，否则会导致编译错误。例如：
 ```cpp
-const int b; // [!code error] // 错误，缺少初始化器
+const int b; // 错误，缺少初始化器 // [!code error] 
 ```
 
 通过 `auto` 从 `const` 限定的对象中推导类型时，`auto` 会忽略 `const` 限定符。例如：

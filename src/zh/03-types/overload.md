@@ -13,7 +13,7 @@ double sqrt(double);
 long double sqrt(long double);
 ```
 
-这两个函数有完全相同的名称，当写下如下的函数调用的时候，会发生什么？
+这两个函数有完全相同的名字，当写下如下的函数调用的时候，会发生什么？
 ```cpp
 sqrt(42);
 ```
@@ -118,7 +118,7 @@ example::foo(2); // 候选函数集合为 {example::foo(int), example::foo(int, 
 
 这里要考虑[`using` 声明](../02-program-structure/scope.md#using-声明)和[`using` 指令](../02-program-structure/scope.md#using-namespace-指令) 的影响。
 
-对于 `using` 声明，它将接下来的名称替换为一个限定的名称，例如：
+对于 `using` 声明，它将接下来的名字替换为一个限定的名字，例如：
 
 ```cpp
 void foo(int a);
@@ -133,7 +133,7 @@ int main() {
 }
 ```
 
-对于 `using` 指令，它将整个命名空间的名称引入当前作用域，例如：
+对于 `using` 指令，它将整个命名空间的名字引入当前作用域，例如：
 
 ```cpp
 void foo(int a);
@@ -150,8 +150,8 @@ int main() {
 
 ::: info using namespace std;
 在 C++ 中，有一个特殊的命名空间 `std`，其中包含了大量的标准库函数和对象。
-在一些快速开发测试的情况，程序员不会定义很多函数，而倾向于直接使用标准库。这时候就会 `using namespace std;` 语句，将 `std` 命名空间中的所有名称引入当前作用域，省去每次都写 `std::` 的麻烦。
-但是，对于较大的项目而言，这样会把大量的名称引入当前作用域，可能会导致名称冲突。
+在一些快速开发测试的情况，程序员不会定义很多函数，而倾向于直接使用标准库。这时候就会 `using namespace std;` 语句，将 `std` 命名空间中的所有名字引入当前作用域，省去每次都写 `std::` 的麻烦。
+但是，对于较大的项目而言，这样会把大量的名字引入当前作用域，可能会导致名字冲突。
 :::
 
 ### 可行函数筛选
@@ -188,7 +188,7 @@ foo(1); // 调用 foo(int)
 void foo(bool a);
 void foo(short a);
 
-foo(1); // [!code error] // 无法判断调用哪个函数
+foo(1); // 无法判断调用哪个函数 // [!code error] 
 ```
 
 ::: info 浮点与整数
@@ -205,7 +205,7 @@ int a = 1.1; // a 的值是 1，浮点转换到整数，截断小数部分
 void foo(int a);
 void foo(float a);
 
-foo(1.1); // [!code error] // 无法判断调用哪个函数
+foo(1.1); // 无法判断调用哪个函数 // [!code error] 
 ```
 
 这就有点让人疯狂了，凭什么我的浮点没有比整数更准确匹配？
@@ -227,7 +227,7 @@ foo(1.1); // [!code error] // 无法判断调用哪个函数
 
 在声明函数类型时，并不能推导出函数参数类型为何，因此在声明函数类型时，必须显式指定参数类型，而不能使用 `auto`。例如：
 ```cpp
-using binary_int_func = int(auto, auto); // [!code error] // 错误，auto 不能用在这里
+using binary_int_func = int(auto, auto); // 错误，auto 不能用在这里 // [!code error] 
 ```
 
 但是，我们可以通过函数类型来确定一个声明中有 `auto` 的函数的形式：
@@ -304,7 +304,7 @@ void foo(long a);
 void foo(double a);
 
 int main() {
-    foo(1); // [!code error] // 无法判断调用哪个函数
+    foo(1); // 无法判断调用哪个函数 // [!code error] 
 }
 ```
 
@@ -343,7 +343,7 @@ int main() {
 }
 ```
 
-注意，[`using` 声明](../02-program-structure/scope.md#using-声明)并不是增添地引入名称，而是让没有 `name_space::` 限定的使用如同有限定的使用，这在重载的意义上是有区别的。例如：
+注意，[`using` 声明](../02-program-structure/scope.md#using-声明)并不是增添地引入名字，而是让没有 `name_space::` 限定的使用如同有限定的使用，这在重载的意义上是有区别的。例如：
 
 ```cpp
 // 为了简便，这里只给出函数声明

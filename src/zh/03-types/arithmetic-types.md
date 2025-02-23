@@ -54,7 +54,7 @@ C++ 中默认提供的整数类型包括：
 
 ```cpp
 using my_int = int; // 将 my_int 定义为 int 的别名
-long my_int x = 42;  // [!code error] // 错误：long my_int 不能组成 long int
+long my_int x = 42;  // 错误：long my_int 不能组成 long int // [!code error] 
 ```
 
 除了上述用于表示基本整数的类型，C++ 还提供了一些用于表示字符的整数类型：

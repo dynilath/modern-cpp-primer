@@ -32,7 +32,7 @@ int result = apply(add, 1, 2);
 读者可以发现，在上面的例子中，`apply` 函数中的参数 `auto& func` 也能绑定到对象。此时：
 ```cpp
 int a = 1;
-int result = apply(a, 2, 3); // ![!code error] // 错误，a 不是函数
+int result = apply(a, 2, 3);  // 错误，a 不是函数 // [!code error]
 ```
 这样就会产生错误，因为 `a` 不是函数。但是这个错误会出现在 `apply` 函数里面，在调用方并不会产生提示。  
 此时，我们就会希望通过类型来限制 `func` 只能绑定到函数。这就需要使用函数类型，以及函数引用类型。
@@ -56,12 +56,12 @@ int apply(binary_int_func& func, int a, int b) {
 }
 
 int a = 1;
-apply(a, 2, 3); // [!code error] // 错误，a 不是函数
+apply(a, 2, 3); // 错误，a 不是函数 // [!code error] 
 
 float add(float a, float b) {
     return a + b;
 }
-apply(add, 2, 3); // [!code error] // 错误，add 类型不匹配
+apply(add, 2, 3); // 错误，add 类型不匹配 // [!code error] 
 ```
 这样，在调用 `apply` 函数时，就会提示无法用 `a` 初始化 `apply` 的第一个参数。这在 `apply` 函数的实现比较复杂的时候能够有效的提升分析错误的效率。
 

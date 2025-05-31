@@ -2,7 +2,6 @@ import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { viteBundler } from "@vuepress/bundler-vite";
 import { registerComponentsPlugin } from "@vuepress/plugin-register-components";
-import { components } from "vuepress-theme-hope";
 import { path } from 'vuepress/utils'
 
 export default defineUserConfig({

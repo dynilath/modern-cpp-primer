@@ -1,0 +1,204 @@
+---
+// IEEE 754 binary32 可视化:符号/指数/尾数位勾选,联动十进制值与二进制表示。
+---
+
+<div class="b32">
+  <p class="b32-title">binary32 表示</p>
+  <div class="b32-bits">
+    <div class="b32-field">
+      <p>符号</p>
+      <div class="b32-checkboxes" data-field="sign"></div>
+    </div>
+    <div class="b32-field">
+      <p>指数</p>
+      <div class="b32-checkboxes" data-field="exponent"></div>
+    </div>
+    <div class="b32-field">
+      <p>尾数</p>
+      <div class="b32-checkboxes" data-field="mantissa"></div>
+    </div>
+  </div>
+  <div class="b32-io">
+    <div class="b32-io-row">
+      <p>十进制</p>
+      <input class="b32-decimal" type="text" autocomplete="off" />
+    </div>
+    <div class="b32-io-row">
+      <p>值表示</p>
+      <input class="b32-rep" type="text" readonly />
+    </div>
+  </div>
+</div>
+
+<script>
+  function toBits(floatNumber: number): boolean[] {
+    const buffer = new ArrayBuffer(4);
+    const view = new DataView(buffer);
+    view.setFloat32(0, floatNumber);
+    return view
+      .getUint32(0)
+      .toString(2)
+      .padStart(32, "0")
+      .split("")
+      .map((c) => c === "1");
+  }
+
+  function bitsToFloat(bits: boolean[]): number {
+    const binaryString = bits.map((b) => (b ? "1" : "0")).join("");
+    const buffer = new ArrayBuffer(4);
+    const view = new DataView(buffer);
+    view.setUint32(0, parseInt(binaryString, 2));
+    return view.getFloat32(0);
+  }
+
+  function normFloat32(floatNumber: number): number {
+    const farray = new Float32Array(1);
+    farray[0] = floatNumber;
+    return farray[0];
+  }
+
+  function floatToLeastLenString(floatNumber: number): string {
+    let str = floatNumber.toString();
+    const dotIndex = str.indexOf(".");
+    if (dotIndex === -1) return str;
+
+    let precision = str.length - 1;
+    const eIndex = str.indexOf("e");
+    if (eIndex !== -1) precision = eIndex - 1;
+
+    while (precision > 0) {
+      const nstr = floatNumber.toPrecision(precision);
+      if (normFloat32(parseFloat(nstr)) === floatNumber) {
+        precision -= 1;
+        str = nstr;
+      } else break;
+    }
+    return str;
+  }
+
+  const root = document.querySelector<HTMLElement>(".b32");
+  if (root) {
+    const signBox = root.querySelector<HTMLElement>('[data-field="sign"]')!;
+    const expBox = root.querySelector<HTMLElement>('[data-field="exponent"]')!;
+    const manBox = root.querySelector<HTMLElement>('[data-field="mantissa"]')!;
+    const decimalInput = root.querySelector<HTMLInputElement>(".b32-decimal")!;
+    const repInput = root.querySelector<HTMLInputElement>(".b32-rep")!;
+
+    const makeCheckbox = () => {
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      return input;
+    };
+    const sign = [makeCheckbox()];
+    const exponent = Array.from({ length: 8 }, makeCheckbox);
+    const mantissa = Array.from({ length: 23 }, makeCheckbox);
+    sign.forEach((el) => signBox.appendChild(el));
+    exponent.forEach((el) => expBox.appendChild(el));
+    mantissa.forEach((el) => manBox.appendChild(el));
+
+    const allBits = () => [...sign, ...exponent, ...mantissa];
+    const sync = (value: number) => {
+      repInput.value = toBits(value).join("");
+      decimalInput.value = floatToLeastLenString(value);
+    };
+
+    const setFromFloat = (f: number) => {
+      const bits = toBits(f);
+      sign[0].checked = bits[0];
+      bits.slice(1, 9).forEach((b, i) => (exponent[i].checked = b));
+      bits.slice(9).forEach((b, i) => (mantissa[i].checked = b));
+      sync(f);
+    };
+
+    decimalInput.addEventListener("change", () => {
+      setFromFloat(normFloat32(parseFloat(decimalInput.value)));
+    });
+
+    for (const input of allBits()) {
+      input.addEventListener("change", () => {
+        sync(bitsToFloat(allBits().map((el) => el.checked)));
+      });
+    }
+
+    setFromFloat(0);
+  }
+</script>
+
+<style>
+  .b32 {
+    display: block;
+    background: var(--sl-color-gray-6, var(--sl-color-gray-7));
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .b32-title {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0.5rem;
+  }
+
+  .b32-bits {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .b32-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 5px;
+  }
+
+  .b32-field p {
+    width: 40px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .b32-checkboxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  .b32-checkboxes input {
+    margin: 0;
+    padding: 0;
+    accent-color: var(--sl-color-accent);
+  }
+
+  .b32-io {
+    margin: 0.75rem 0;
+  }
+
+  .b32-io-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0.5rem 0;
+  }
+
+  .b32-io-row p {
+    margin: 0 10px 0 3px;
+    width: 20%;
+    max-width: 5rem;
+    text-align: center;
+    flex: none;
+  }
+
+  .b32-io-row input {
+    width: 70%;
+    min-width: 12rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--sl-color-gray-5);
+    background: var(--sl-color-black);
+    color: var(--sl-color-white);
+    padding: 0.25rem 0.5rem;
+  }
+</style>

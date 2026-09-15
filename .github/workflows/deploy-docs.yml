@@ -23,24 +23,24 @@ jobs:
           fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: true
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
 
-      - name: Build VuePress site
-        run: pnpm docs:build
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build site
+        run: pnpm build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'src/.vuepress/dist'
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         id: deployment

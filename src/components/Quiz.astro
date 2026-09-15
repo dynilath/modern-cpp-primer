@@ -1,0 +1,211 @@
+---
+// 交互式多选题练习组件。
+// 题干/选项/答案的代码在构建期用 shiki 预渲染(亮/暗双主题),
+// 客户端只有一段原生脚本负责作答流程,不再向浏览器发送 shiki。
+import { createHighlighter } from "shiki";
+import patchedCpp from "../shiki/cpp-extended.mjs";
+
+interface Question {
+  text: string;
+  code?: string;
+  options: string[];
+  answers: string[];
+  shuffleOptions?: boolean;
+}
+
+interface Props {
+  questions: Question[];
+}
+
+const { questions } = Astro.props;
+
+let highlighter = await createHighlighter({
+  themes: ["github-light", "github-dark"],
+  langs: [patchedCpp],
+});
+
+const render = (code: string, lang: "cpp" | "plaintext") =>
+  highlighter.codeToHtml(code, {
+    lang,
+    themes: { light: "github-light", dark: "github-dark" },
+  });
+
+const prepared = questions.map((q) => ({
+  ...q,
+  codeHtml: q.code ? render(q.code, "cpp") : null,
+  optionHtml: q.options.map((o) => render(o, "plaintext")),
+  answerHtml: q.answers.map((a) => render(a, "plaintext")),
+}));
+---
+
+<div class="quiz" data-quiz={JSON.stringify(prepared)}>
+  <p class="quiz-text"></p>
+  <div class="quiz-code"></div>
+  <div class="quiz-options"></div>
+  <button type="button" class="quiz-submit">提交</button>
+  <div class="quiz-feedback" hidden></div>
+</div>
+
+<script>
+  interface PreparedQuestion {
+    text: string;
+    code?: string;
+    options: string[];
+    answers: string[];
+    shuffleOptions?: boolean;
+    codeHtml: string | null;
+    optionHtml: string[];
+    answerHtml: string[];
+  }
+
+  const shuffled = <T,>(arr: T[]): T[] => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  function renderQuestion(root: HTMLElement, q: PreparedQuestion) {
+    const text = root.querySelector<HTMLElement>(".quiz-text")!;
+    const code = root.querySelector<HTMLElement>(".quiz-code")!;
+    const options = root.querySelector<HTMLElement>(".quiz-options")!;
+    const feedback = root.querySelector<HTMLElement>(".quiz-feedback")!;
+    const submit = root.querySelector<HTMLButtonElement>(".quiz-submit")!;
+
+    text.textContent = q.text;
+    code.innerHTML = q.codeHtml ?? "";
+    code.hidden = !q.codeHtml;
+    feedback.hidden = true;
+    submit.disabled = false;
+
+    const pairs = q.options.map((opt, i) => ({ opt, html: q.optionHtml[i] }));
+    const ordered = q.shuffleOptions === false ? pairs : shuffled(pairs);
+
+    options.innerHTML = "";
+    for (const { opt, html } of ordered) {
+      const label = document.createElement("label");
+      label.className = "quiz-option";
+      label.innerHTML = `<span class="quiz-option-mark"><input type="checkbox" value="${opt.replace(/"/g, "&quot;")}"></span><span class="quiz-option-code">${html}</span>`;
+      options.appendChild(label);
+    }
+  }
+
+  function initQuiz(root: HTMLElement) {
+    const data: PreparedQuestion[] = JSON.parse(root.dataset.quiz ?? "[]");
+    if (data.length === 0) return;
+
+    let queue: number[] = [];
+    let current: PreparedQuestion;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const next = () => {
+      if (queue.length === 0) queue = shuffled(data.map((_, i) => i));
+      current = data[queue.shift()!];
+      renderQuestion(root, current);
+    };
+
+    root.querySelector(".quiz-submit")!.addEventListener("click", () => {
+      const checked = [...root.querySelectorAll<HTMLInputElement>(".quiz-option input:checked")].map(
+        (el) => el.value,
+      );
+      const feedback = root.querySelector<HTMLElement>(".quiz-feedback")!;
+      const correct =
+        checked.length === current.answers.length &&
+        checked.every((v) => current.answers.includes(v));
+
+      feedback.hidden = false;
+      if (correct) {
+        feedback.innerHTML = `<p class="quiz-correct">回答正确</p>`;
+        clearTimeout(timer);
+        timer = setTimeout(next, 1000);
+      } else {
+        const answers = current.answerHtml.map((h) => `<div class="quiz-answer">${h}</div>`).join("");
+        feedback.innerHTML = `<p class="quiz-wrong">回答错误，正确答案是：</p>${answers}`;
+      }
+    });
+
+    next();
+  }
+
+  document.querySelectorAll<HTMLElement>(".quiz").forEach(initQuiz);
+</script>
+
+<style>
+  .quiz {
+    margin: 1.5rem 0;
+    padding-inline-start: 1rem;
+    border-inline-start: 3px solid var(--sl-color-accent);
+  }
+
+  .quiz-code :global(pre) {
+    margin: 0.5rem 0;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    background: var(--sl-color-gray-7, transparent) !important;
+  }
+
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+    cursor: pointer;
+  }
+
+  .quiz-option-mark input {
+    margin: 0;
+    accent-color: var(--sl-color-accent);
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .quiz-option-code :global(pre) {
+    margin: 0;
+    padding: 0.15rem 0.5rem;
+    background: transparent !important;
+  }
+
+  .quiz-submit {
+    height: 2.25rem;
+    margin: 0.5rem 0.25rem;
+    padding: 0 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--sl-color-accent);
+    background-color: var(--sl-color-accent-low);
+    color: var(--sl-color-accent);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .quiz-submit:hover {
+    box-shadow: 0 0 0.4rem 0.2rem var(--sl-color-shadow, rgba(0, 0, 0, 0.1));
+  }
+
+  .quiz-feedback {
+    margin-top: 0.75rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--sl-color-gray-6, var(--sl-color-gray-7));
+  }
+
+  .quiz-correct,
+  .quiz-wrong {
+    margin: 0 0 0.25rem;
+  }
+
+  .quiz-correct {
+    color: var(--sl-color-green-high, inherit);
+    font-weight: 600;
+  }
+
+  .quiz-wrong {
+    color: var(--sl-color-red-high, inherit);
+    font-weight: 600;
+  }
+</style>

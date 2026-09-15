@@ -1,0 +1,98 @@
+---
+// 覆盖 Starlight 默认 Head:注入 mermaid 客户端渲染脚本。
+// ```mermaid 代码块由 Expressive Code 正常输出,
+// 本脚本在浏览器端将其替换为渲染后的 SVG(懒加载,暗色主题跟随)。
+// 说明:mermaid 的 ESM 产物与 rolldown-vite 分块不兼容
+// (运行时报 "importModule is not defined"),故改用 public/mermaid.min.js
+// 的自包含 IIFE 构建(从 node_modules/mermaid/dist 复制),按 URL 加载全局
+// window.mermaid,完全绕开打包器。升级 mermaid 时需重新复制该文件。
+import DefaultHead from "@astrojs/starlight/components/Head.astro";
+---
+
+<DefaultHead {...Astro.props} />
+
+<script>
+  const MERMAID_SCRIPT_URL = `${import.meta.env.BASE_URL}mermaid.min.js`;
+
+  function loadMermaid() {
+    const w = window;
+    if (w.mermaid) return Promise.resolve(w.mermaid);
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = MERMAID_SCRIPT_URL;
+      s.onload = () => resolve(w.mermaid);
+      s.onerror = () => reject(new Error(`mermaid.min.js 加载失败: ${MERMAID_SCRIPT_URL}`));
+      document.head.appendChild(s);
+    });
+  }
+
+  // 收集渲染宿主:未渲染的 EC 块(含 mermaid pre)或已渲染的 .mermaid-diagram(主题切换时重渲)
+  function findHosts() {
+    const hosts = [];
+    for (const block of document.querySelectorAll(".expressive-code")) {
+      if (block.querySelector('pre[data-language="mermaid"]')) hosts.push(block);
+    }
+    for (const div of document.querySelectorAll(".mermaid-diagram")) hosts.push(div);
+    return hosts;
+  }
+
+  // 渲染 id 必须全局唯一(计数器放模块作用域):主题初始化脚本可能在
+  // 模块脚本执行后才设置 data-theme,触发观察器并发调用 renderAll,
+  // 若两次渲染使用相同 id,mermaid 内部临时元素互相踩踏会得到空 SVG。
+  let renderSeq = 0;
+  let renderChain = Promise.resolve();
+
+  async function renderAll() {
+    const hosts = findHosts();
+    if (hosts.length === 0) return;
+
+    const mermaid = await loadMermaid();
+    const dark = document.documentElement.dataset.theme === "dark";
+    mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "default" });
+
+    for (const host of hosts) {
+      // 串行队列中的前一次渲染可能已把当前宿主替换掉
+      if (!host.isConnected) continue;
+      try {
+        // 源码优先取宿主 data 属性(重渲时 pre 已不存在),否则从 pre 提取。
+        // EC 把每行拆成独立的 div,直接取 textContent 会丢失换行,需按行重组。
+        let source = host.dataset.mermaidSrc;
+        if (!source) {
+          const pre = host.querySelector("pre");
+          const lineEls = pre?.querySelectorAll(".ec-line");
+          source =
+            lineEls && lineEls.length > 0
+              ? [...lineEls].map((el) => el.textContent ?? "").join("\n")
+              : (pre?.textContent ?? "");
+          source = host.dataset.mermaidSrc = source;
+        }
+        const { svg } = await mermaid.render(`mcpp-mermaid-${renderSeq++}`, source);
+        let div = host;
+        if (!div.classList.contains("mermaid-diagram")) {
+          div = document.createElement("div");
+          div.className = "mermaid-diagram";
+          div.dataset.mermaidSrc = source;
+          host.replaceWith(div);
+        }
+        div.innerHTML = svg;
+      } catch (err) {
+        console.error("mermaid render failed:", err);
+      }
+    }
+  }
+
+  // 所有触发(初次加载、主题切换)都进入同一条 promise 链,杜绝并发渲染
+  function scheduleRenderAll() {
+    renderChain = renderChain.then(renderAll).catch((err) =>
+      console.error("mermaid render failed:", err),
+    );
+  }
+
+  scheduleRenderAll();
+
+  // 亮/暗主题切换时重渲染(源码已缓存在宿主 data 属性上)
+  new MutationObserver(() => scheduleRenderAll()).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+</script>

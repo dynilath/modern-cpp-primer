@@ -1,0 +1,76 @@
+---
+// 十进制 / 八进制 / 十六进制 互算器(纯原生脚本,无框架运行时)
+---
+
+<div class="decocthex">
+  <div class="doh-group">
+    <label for="doh-dec">十进制</label>
+    <input id="doh-dec" type="text" data-base="10" autocomplete="off" />
+  </div>
+  <div class="doh-group">
+    <label for="doh-oct">八进制</label>
+    <input id="doh-oct" type="text" data-base="8" autocomplete="off" />
+  </div>
+  <div class="doh-group">
+    <label for="doh-hex">十六进制</label>
+    <input id="doh-hex" type="text" data-base="16" autocomplete="off" />
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector(".decocthex");
+  if (root) {
+    const inputs = [...root.querySelectorAll<HTMLInputElement>("input[data-base]")];
+    for (const input of inputs) {
+      input.addEventListener("input", () => {
+        const base = Number(input.dataset.base);
+        const value = parseInt(input.value, base);
+        for (const other of inputs) {
+          if (other === input) continue;
+          const otherBase = Number(other.dataset.base);
+          other.value = Number.isNaN(value)
+            ? ""
+            : value.toString(otherBase).toUpperCase();
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .decocthex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .doh-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 8rem;
+  }
+
+  .doh-group label {
+    margin-bottom: 0.5rem;
+  }
+
+  .doh-group input {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 0.3rem;
+    border: 1px solid var(--sl-color-gray-5);
+    background: var(--sl-color-black);
+    color: var(--sl-color-white);
+    padding: 0.25rem 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .decocthex {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

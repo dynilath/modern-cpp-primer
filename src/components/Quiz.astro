@@ -67,7 +67,10 @@ const prepared = questions.map((q) => ({
     return a;
   };
 
-  function renderQuestion(root: HTMLElement, q: PreparedQuestion) {
+  // radio 的 name 跨整页生效,每个 quiz 实例分配独立组名避免互相干扰
+  let quizSeq = 0;
+
+  function renderQuestion(root: HTMLElement, q: PreparedQuestion, groupName: string) {
     const text = root.querySelector<HTMLElement>(".quiz-text")!;
     const code = root.querySelector<HTMLElement>(".quiz-code")!;
     const options = root.querySelector<HTMLElement>(".quiz-options")!;
@@ -80,6 +83,7 @@ const prepared = questions.map((q) => ({
     feedback.hidden = true;
     submit.disabled = false;
 
+    const inputType = q.answers.length === 1 ? "radio" : "checkbox";
     const pairs = q.options.map((opt, i) => ({ opt, html: q.optionHtml[i] }));
     const ordered = q.shuffleOptions === false ? pairs : shuffled(pairs);
 
@@ -87,7 +91,7 @@ const prepared = questions.map((q) => ({
     for (const { opt, html } of ordered) {
       const label = document.createElement("label");
       label.className = "quiz-option";
-      label.innerHTML = `<span class="quiz-option-mark"><input type="checkbox" value="${opt.replace(/"/g, "&quot;")}"></span><span class="quiz-option-code">${html}</span>`;
+      label.innerHTML = `<span class="quiz-option-mark"><input type="${inputType}" name="${groupName}" value="${opt.replace(/"/g, "&quot;")}"></span><span class="quiz-option-code">${html}</span>`;
       options.appendChild(label);
     }
   }
@@ -96,6 +100,7 @@ const prepared = questions.map((q) => ({
     const data: PreparedQuestion[] = JSON.parse(root.dataset.quiz ?? "[]");
     if (data.length === 0) return;
 
+    const groupName = `quiz-choice-${++quizSeq}`;
     let queue: number[] = [];
     let current: PreparedQuestion;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -103,7 +108,7 @@ const prepared = questions.map((q) => ({
     const next = () => {
       if (queue.length === 0) queue = shuffled(data.map((_, i) => i));
       current = data[queue.shift()!];
-      renderQuestion(root, current);
+      renderQuestion(root, current, groupName);
     };
 
     root.querySelector(".quiz-submit")!.addEventListener("click", () => {
@@ -132,14 +137,15 @@ const prepared = questions.map((q) => ({
   document.querySelectorAll<HTMLElement>(".quiz").forEach(initQuiz);
 </script>
 
-<style>
+<!-- 选项与反馈均由客户端脚本动态创建,拿不到 Astro 的 scoped 属性,样式必须全局 -->
+<style is:global>
   .quiz {
     margin: 1.5rem 0;
     padding-inline-start: 1rem;
     border-inline-start: 3px solid var(--sl-color-accent);
   }
 
-  .quiz-code :global(pre) {
+  .quiz .quiz-code pre {
     margin: 0.5rem 0;
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 0.5rem;
@@ -156,7 +162,7 @@ const prepared = questions.map((q) => ({
     cursor: pointer;
   }
 
-  .quiz-option-mark input {
+  .quiz-option input {
     margin: 0;
     accent-color: var(--sl-color-accent);
     width: 1rem;
@@ -164,7 +170,7 @@ const prepared = questions.map((q) => ({
     flex: none;
   }
 
-  .quiz-option-code :global(pre) {
+  .quiz .quiz-option-code pre {
     margin: 0;
     padding: 0.15rem 0.5rem;
     background: transparent !important;

@@ -9,7 +9,7 @@ title: 2.7 命名空间
 
 对于每个源文件，在所有的作用域之外，有一个全局的作用域，这个全局的作用域称为**全局命名空间**。源文件中其他的作用域，例如函数、复合语句、`for` 语句、`if` 语句、`switch` 语句等，都是在全局命名空间之内，可以访问全局命名空间中的名字。
 
-在全局命名空间中，不能出现多数的语句，但是可以出现[声明语句](./statements.md#声明语句)、[函数定义](./function.md#函数的定义)、[函数前向声明](./function.md#前向声明)等。例如下面是 `main.cpp` 文件的一个例子：
+在全局命名空间中，不能出现多数的语句，但是可以出现[声明语句](../statements/#声明语句)、[函数定义](../function/#函数的定义)、[函数前向声明](../function/#前向声明)等。例如下面是 `main.cpp` 文件的一个例子：
 
 ```cpp
 // 文件 main.cpp 开始
@@ -41,7 +41,7 @@ namespace name {
     // 在这里进行声明和定义
 }
 ```
-这里，`namespace` 是一个关键字，指示这是一个命名空间的声明。`name` 是命名空间的名字，可以是任意符合语法的[标识符](../01-hello-world/id-and-keyword.md)。
+这里，`namespace` 是一个关键字，指示这是一个命名空间的声明。`name` 是命名空间的名字，可以是任意符合语法的[标识符](../../01-hello-world/id-and-keyword/)。
 
 命名空间的声明必须在命名空间中，而不能在语句带来的的作用域内。
 
@@ -74,7 +74,7 @@ namespace A {
 int b = A::a; // 通过有限定名字访问 A 命名空间中的 a
 ```
 
-有限定名字作为表达式时，是一个[基本表达式](./expression/primary-expr.md)。
+有限定名字作为表达式时，是一个[基本表达式](../expression/primary-expr/)。
 
 ### 命名空间的嵌套
 
@@ -165,7 +165,7 @@ using namespace_name :: name;
 ```
 这里，`using` 是一个关键字，指示这是一个 `using` 声明。`namespace_name` 是命名空间的名字，`name` 是命名空间中的名字。
 
-整个 `using` 声明组成了一个[声明语句](./statements.md#声明语句)。`using` 声明可以在任何作用域内使用。
+整个 `using` 声明组成了一个[声明语句](../statements/#声明语句)。`using` 声明可以在任何作用域内使用。
 
 以 `using` 声明引入名字后，在这个作用域剩下的范围内，使用 `name` 就如同使用 `namespace_name :: name` 一样。例如：
 ```cpp
@@ -248,7 +248,7 @@ using namespace namespace_name;
 ```
 这里，`using` 是一个关键字，指示这是一个 `using` 指令。`namespace_name` 是命名空间的名字。
 
-完整的 `using namespace` 指令组成了一个[声明语句](./statements.md#声明语句)。`using namespace` 指令可以在任何作用域内使用。
+完整的 `using namespace` 指令组成了一个[声明语句](../statements/#声明语句)。`using namespace` 指令可以在任何作用域内使用。
 
 `using namespace` 指令引入的名字，可以在引入的作用域内直接使用，不需要有限定名字。例如：
 ```cpp
@@ -341,16 +341,16 @@ int main() {
 
 虽然，已经声明的命名空间可以再次声明，不会产生冲突。即，程序员可以写 `namespace std {}`，不会产生问题。
 
-但是，C++ 规定，程序员**不应当**在 `std` 命名空间中添加声明。类似于[保留的标识符](../01-hello-world/id-and-keyword.md#保留的标识符)，`std`可以理解为一个保留为标准库使用的命名空间。
+但是，C++ 规定，程序员**不应当**在 `std` 命名空间中添加声明。类似于[保留的标识符](../../01-hello-world/id-and-keyword/#保留的标识符)，`std`可以理解为一个保留为标准库使用的命名空间。
 
 这样的规定是为了避免程序员干扰标准库的功能，产生不可预测的结果。
 
 :::note[println 究竟是什么？]
-技术性的来说，`println` 是一个函数模板。关于 `println` 函数的实现（例如，为什么能用[字符串字面量](../01-hello-world/literals.md#字符串字面量)为参数），以及何为输出，这些我们在后面的章节中讲解。
+技术性的来说，`println` 是一个函数模板。关于 `println` 函数的实现（例如，为什么能用[字符串字面量](../../01-hello-world/literals/#字符串字面量)为参数），以及何为输出，这些我们在后面的章节中讲解。
 :::
 
 :::note[import std; 是什么？]
-在前面[预处理指令](../01-hello-world/source-processed.md#预处理指令)中，我们知道 `import std;` 是一个和模块相关的预处理指令。
+在前面[预处理指令](../../01-hello-world/source-processed/#预处理指令)中，我们知道 `import std;` 是一个和模块相关的预处理指令。
 它的作用是导入一个名为 `std` 的模块。具体的模块导入机制，我们会在后面的章节中讲解。
 :::
 

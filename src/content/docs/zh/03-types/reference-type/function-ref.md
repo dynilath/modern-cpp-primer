@@ -86,7 +86,7 @@ using binary_int_func_ref = int(&)(int, int);
 
 此处的情况中，标识符是空的，我们不妨写一个空格 ` ` 来表示，在它的前面加个修饰符 `&`，得到 `& `，然后再把函数的参数写上去，得到 `(& )(int, int)`，最后把返回值放到前面，得到 `int(& )(int, int)`。这种期待声明、类型、调用的形式统一的设计是从 C 语言中继承下来的。
 
-使用[旧式类型别名](../type-intro.md#旧式类型别名) `typedef` 时，这种体现会更加明显：
+使用[旧式类型别名](../../type-intro/#旧式类型别名) `typedef` 时，这种体现会更加明显：
 ```cpp
 typedef int binary_int_func(int, int); // 声明了一个函数类型
 typedef int (&binary_int_func_ref)(int, int); // 声明了一个函数引用类型
@@ -116,7 +116,7 @@ int result = add_ref(1, 2); // 调用 add 函数
 int result = get_add()(1, 2); // 调用 add 函数
 ```
 
-结合之前提到[switch 语句](../../02-program-structure/statements.md#switch-语句)的例子，我们可以把 `get_add` 函数进一步扩展：
+结合之前提到[switch 语句](../../../02-program-structure/statements/#switch-语句)的例子，我们可以把 `get_add` 函数进一步扩展：
 ```cpp
 using binary_int_func = int(int, int);
 

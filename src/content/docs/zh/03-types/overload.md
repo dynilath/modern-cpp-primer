@@ -4,7 +4,7 @@ title: 3.6 初识重载
 
 ## 简单重载
 
-考虑如下的几个函数（读者如果已经忘记了函数的形式参数的名字是可以省略的，可以回顾一下[前面的章节](../02-program-structure/function.md)）。
+考虑如下的几个函数（读者如果已经忘记了函数的形式参数的名字是可以省略的，可以回顾一下[前面的章节](../../02-program-structure/function/)）。
 
 ```cpp
 int sqrt(int);
@@ -116,7 +116,7 @@ example::foo(2); // 候选函数集合为 {example::foo(int), example::foo(int, 
 
 这里调用 `foo(1)` 时，会在全局作用域中查找 `foo` 函数，而调用 `example::foo(2)` 时，会在 `example` 命名空间中查找 `foo` 函数。
 
-这里要考虑[`using` 声明](../02-program-structure/scope.md#using-声明)和[`using` 指令](../02-program-structure/scope.md#using-namespace-指令) 的影响。
+这里要考虑[`using` 声明](../../02-program-structure/namespace/#using-声明)和[`using` 指令](../../02-program-structure/namespace/#using-namespace-指令) 的影响。
 
 对于 `using` 声明，它将接下来的名字替换为一个限定的名字，例如：
 
@@ -261,7 +261,7 @@ auto result = add(1, 2); // result 是 int 类型
 auto result2 = add(1.0, 2.0); // result2 是 double 类型
 auto result3 = add(1, 2.0); // result3 是 double 类型
 ```
-你可能会觉得，这不就是把运算符 `+` 变成了个函数吗，但我们可以考虑一些更复杂的计算，例如[简单的控制台程序](../02-program-structure/cli-program.md)中的 `sqrt` 函数：
+你可能会觉得，这不就是把运算符 `+` 变成了个函数吗，但我们可以考虑一些更复杂的计算，例如[简单的控制台程序](../../02-program-structure/cli-program/)中的 `sqrt` 函数：
 ```cpp
 auto sqrt(auto x) {
     auto a = x;
@@ -278,7 +278,7 @@ auto result = sqrt(314159ull);  // result 是 unsigned long long 类型
 
 ## 函数重载
 
-在函数的[前向声明](../02-program-structure/function.md#前向声明)中，读者可能已经注意到，如果前向声明和函数定义的参数列表不一致，似乎并不会直接导致编译错误。  
+在函数的[前向声明](../../02-program-structure/function/#前向声明)中，读者可能已经注意到，如果前向声明和函数定义的参数列表不一致，似乎并不会直接导致编译错误。  
 这是因为 C++ 的一个影响深远的特性：**函数重载**。
 
 目前，介绍的内容已经足够对函数重载进行初步的理解，简单来说，函数重载是指，函数名相同时但参数列表不同时，可以定义多个这样的函数。在调用的时候，会选择最为匹配的函数。例如：
@@ -343,7 +343,7 @@ int main() {
 }
 ```
 
-注意，[`using` 声明](../02-program-structure/scope.md#using-声明)并不是增添地引入名字，而是让没有 `name_space::` 限定的使用如同有限定的使用，这在重载的意义上是有区别的。例如：
+注意，[`using` 声明](../../02-program-structure/namespace/#using-声明)并不是增添地引入名字，而是让没有 `name_space::` 限定的使用如同有限定的使用，这在重载的意义上是有区别的。例如：
 
 ```cpp
 // 为了简便，这里只给出函数声明

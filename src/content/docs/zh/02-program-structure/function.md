@@ -90,7 +90,7 @@ int sqrt(int x) {
 
 ### 函数调用表达式
 
-函数的调用是一种[后缀表达式](./expression/posix-expr.md)，其形式是：
+函数的调用是一种[后缀表达式](../expression/posix-expr/)，其形式是：
 ```cpp
 function_name ( argument_list ) 
 ```
@@ -102,10 +102,10 @@ function_name ( argument_list )
 - `assign_expression`
 - `argument_list , assign_expression`
 
-这里，`assign_expression` 是[赋值表达式](./expression/assign-expr.md)。
+这里，`assign_expression` 是[赋值表达式](../expression/assign-expr/)。
 
 :::note[参数列表与逗号表达式]
-参数列表看起来和[逗号表达式](./expression/comma-expr.md)很像，但是它们是不同的。
+参数列表看起来和[逗号表达式](../expression/comma-expr/)很像，但是它们是不同的。
 
 逗号表达式可以单独作为一个表达式语句，并且逗号表达式的值是最后一个表达式的值。例如：
 ```cpp
@@ -171,7 +171,7 @@ int sqrt_x = sqrt(xn + 1);
 4. 执行 `sqrt` 函数体中的语句，直到函数执行结束，此时返回语句 `return a;` 的表达式是 `a`，即 `a` 的值，得到 `6`
 5. 将 `6` 作为 `sqrt(x + 1)` 的值，初始化 `sqrt_x`
 
-初学者常常会弄混 `x` 和 `xn` 的区别。需要记住，进入函数体前，会使用参数列表中的值（这里是 `xn + 1`）初始化函数的参数（`x`），函数体中这个 `x` 的[作用域](./scope.md)只在函数体内部，不会影响函数调用表达式中的参数。
+初学者常常会弄混 `x` 和 `xn` 的区别。需要记住，进入函数体前，会使用参数列表中的值（这里是 `xn + 1`）初始化函数的参数（`x`），函数体中这个 `x` 的[作用域](../scope/)只在函数体内部，不会影响函数调用表达式中的参数。
 
 这样，我们只需要调用 `sqrt` 函数十次，就可以得到十个 `sqrt_x` 的值，而不需要把这个计算过程抄十次。如下：
 ```cpp

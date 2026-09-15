@@ -60,7 +60,7 @@ int numbers[] = {10, 20, 30, 40, 50};
 
 ## 访问数组元素
 
-可以通过索引操作符/下标操作符`[]`来访问数组中的元素，这是一种独特的[后缀表达式](../02-program-structure/expression/posix-expr.md)。数组的索引从 `0` 开始。
+可以通过索引操作符/下标操作符`[]`来访问数组中的元素，这是一种独特的[后缀表达式](../../02-program-structure/expression/posix-expr/)。数组的索引从 `0` 开始。
 
 ```cpp
 int numbers[5] = {10, 20, 30, 40, 50};
@@ -108,7 +108,7 @@ ref[0] = 100; // 修改数组的第一个元素
 
 :::note[数组的引用的类型]
 
-类似于[函数引用](./reference-type/function-ref.md)，数组的引用类型是在类型中添加 `&` 修饰符，例如：
+类似于[函数引用](../reference-type/function-ref/)，数组的引用类型是在类型中添加 `&` 修饰符，例如：
 
 ```cpp
 using five_integers_ref = int (&)[5]; // 声明一个对包含 5 个整数的数组的引用类型

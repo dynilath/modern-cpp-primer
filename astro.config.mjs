@@ -123,9 +123,9 @@ export default defineConfig({
       ],
 
       lastUpdated: true,
+      // Starlight 会自行追加 src/content/docs/<文件路径>,baseUrl 只到分支即可
       editLink: {
-        baseUrl:
-          "https://github.com/dynilath/modern-cpp-primer/edit/main/src/content/docs",
+        baseUrl: "https://github.com/dynilath/modern-cpp-primer/edit/main",
       },
       social: [
         {

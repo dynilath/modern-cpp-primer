@@ -6,24 +6,24 @@ title: 3.5.2 函数引用
 引用也可以用来指代一个函数，这种引用称为**函数引用**。例如：
 
 ```cpp
-int add(int a, int b) {
+int add(int a, int b) { // 一个普通的函数
     return a + b;
 }
 
 auto& add_ref = add; // add_ref 是 add 函数的引用
 
-int result = add_ref(1, 2); // 调用 add 函数
+int result = add_ref(1, 2); // 通过引用调用 add 函数，等价于 add(1, 2)
 ```
 
 这里的 `add_ref` 是 `add` 函数的引用，可以像函数一样调用。这种引用称为**函数的引用**。
 
 函数引用也可以作为函数的参数，例如：
 ```cpp
-int apply(auto& func, int a, int b) {
-    return func(a, b);
+int apply(auto& func, int a, int b) { // func 是一个函数引用
+    return func(a, b); // 像调用普通函数一样调用它
 }
 
-int result = apply(add, 1, 2);
+int result = apply(add, 1, 2); // 把 add 函数本身作为参数传入
 ```
 
 在这里，`apply` 函数接受一个函数引用作为参数，然后调用这个函数。
@@ -45,6 +45,7 @@ return_type (parameter_type1, parameter_type2, ...)
 这里的 `return_type` 是函数的返回值类型，`parameter_type1, parameter_type2, ...` 是函数的参数类型。例如：
 
 ```cpp
+// 定义一个函数类型：接受两个 int，返回 int
 using binary_int_func = int(int, int);
 ```
 这样，`binary_int_func` 就是一个函数类型，它接受两个 `int` 类型的参数，返回一个 `int` 类型的值。
@@ -59,6 +60,7 @@ int apply(binary_int_func& func, int a, int b) {
 int a = 1;
 apply(a, 2, 3); // 错误，a 不是函数 // [!code error] 
 
+// 另一个同名函数，但参数和返回值都是 float
 float add(float a, float b) {
     return a + b;
 }
@@ -101,7 +103,7 @@ int add(int,int); // 函数声明，为了简便起见，省略了函数体
 ```cpp
 using binary_int_func = int(int, int);
 
-binary_int_func& get_add() {
+binary_int_func& get_add() { // 返回值类型是函数引用
     return add;
 }
 
@@ -136,11 +138,11 @@ int div(int a, int b) {
     return a / b;
 }
 
-int no_such_operator(int a, int b) {
+int no_such_operator(int a, int b) { // 不支持的运算符：返回一个兜底的函数
     return 0;
 }
 
-binary_int_func& get_func(char op) {
+binary_int_func& get_func(char op) { // 根据运算符字符返回对应的函数引用
     switch (op) {
         case '+':
             return add;
@@ -172,7 +174,7 @@ int add(int a, int b) {
     return a + b;
 }
 
-binary_int_func&& get_add() {
+binary_int_func&& get_add() { // 返回值类型是函数右值引用
     return add;
 }
 ```

@@ -57,8 +57,6 @@ int c, d = 1, e = 2; // 声明并创建整数类型的对象 c、d、e，并初�
 ```cpp
 {
     a = 1;
-    int b = a + 1;
-    int c = a * b;
     a = b, b = c, c = a;
 }
 ```
@@ -125,19 +123,11 @@ else statement
 这里 `condition` 是一个表达式，用来表达选择条件，`statement` 是一个语句，用来表达选中时执行的操作。包围 `condition` 的括号是 `if` 语句的一部分，不可省略。
 
 :::tip
-注意，表达式语句结尾的 `;` 是表达式语句的一部分。当在 `if` 语句中使用表达式语句时，结尾的 `;` 不要忘记。
+表达式语句结尾的 `;` 是表达式语句的一部分。当在 `if` 语句中使用表达式语句时，结尾的 `;` 不要忘记。
 ```cpp
 if (a > b) max = a;
 //                ^ 这里不要忘记分号
 ```
-:::
-
-:::tip
-有时候，我们需要将一个[相等表达式](../expression/rel-expr/#相等表达式)作为 `condition`，例如：
-```cpp
-if (a == b) equal = true;
-```
-初学者会经常错误地将 `a == b` 写成 `a = b`。但注意 `a = b` 是一个[赋值表达式](../expression/assign-expr/)，它将 `b` 赋值给 `a`，并且返回 `a` 的值。这样，并不会做 `a` 和 `b` 是否相等的判断。
 :::
 
 `if` 语句的执行流程是：
@@ -152,7 +142,17 @@ else max = b;
 ```
 在上面的代码中，如果 `a` 大于 `b`，则将 `a` 的值赋给 `max`；否则，将 `b` 的值赋给 `max`。
 
-此外，在 `if` 的 `condition` 之前，可以加入一个初始化语句，例如：
+:::tip
+有时候，我们需要将一个[相等表达式](../expression/rel-expr/#相等表达式)作为 `condition`，例如：
+```cpp
+if (a == b) equal = true;
+```
+初学者会经常错误地将 `a == b` 写成 `a = b`。但注意 `a = b` 是一个[赋值表达式](../expression/assign-expr/)，它将 `b` 赋值给 `a`，并得到 `a` 的值。如果错误地使用了 `a = b` 作为 `condition`，并不会做 `a` 和 `b` 是否相等的判断。
+:::
+
+#### 带初始化语句的 `if` 语句
+
+在 `if` 的 `condition` 之前，可以加入一个初始化语句，例如：
 ```cpp
 if (int a = 1; a > b) max = a;
 else max = b;
@@ -184,13 +184,17 @@ switch (condtion) statement
 举例而言，`switch` 语句可以像这样使用：
 ```cpp
 switch (a) {
-    case 1: as = 1; break;
-    case 2: as = 4; break;
-    case 3: as = 9; break;
+    case 1: as = 1; 
+    break;
+    case 2: as = 4; 
+    break;
+    case 3: as = 9; 
+    break;
     default: as = 0;
 }
 ```
-在这里，`switch` 语句的 `statement` 是一个复合语句，里面包含了三个 `case` 标号语句和一个 `default` 标号语句。当 `a` 的值为 `1` 时，执行 `as = 1;`，然后结束 `switch` 语句；当 `a` 的值为 `2` 时，执行 `as = 4;`，然后结束 `switch` 语句；当 `a` 的值为 `3` 时，执行 `as = 9;`，然后结束 `switch` 语句；当 `a` 的值不是 `1`、`2`、`3` 时，执行 `as = 0;`，然后我们来到了这个 `switch` 语句的结尾。
+
+这里的 `break;` 也是一种语句，称为**跳转语句**，它用于多种语句结构中。`switch` 语句中的 `break;` 用于结束 `switch` 语句的执行。
 
 `switch` 语句的执行过程是：
 1. 计算 `condtion` 的值。
@@ -199,13 +203,17 @@ switch (a) {
    - 如果找不到 `condtion` 的值和任何 `case` 后面的 `value` 的值相等，则从 `default` 标号语句开始执行。
 3. 如果执行到 `break;` 语句，则结束 `switch` 语句的执行。
 
-这里， `break;` 也是一种语句，称为**跳转语句**，它用于多种语句结构中，`switch` 语句中的 `break;` 用于结束 `switch` 语句的执行。
+在前面的例子里，`switch` 语句的 `statement` 是一个复合语句，里面包含了三个 `case` 标号语句、三个 `break;` 语句、和一个 `default` 标号语句。当 `a` 的值为 `1` 时，执行 `as = 1;`，然后结束 `switch` 语句；当 `a` 的值为 `2` 时，执行 `as = 4;`，然后结束 `switch` 语句；当 `a` 的值为 `3` 时，执行 `as = 9;`，然后结束 `switch` 语句；当 `a` 的值不是 `1`、`2`、`3` 时，执行 `as = 0;`，然后我们来到了这个 `switch` 语句的结尾。
 
-此外，在 `switch` 的 `condition` 之前，可以加入一个初始化语句，例如：
+#### 带初始化语句的 `switch` 语句
+
+在 `switch` 的 `condition` 之前，可以加入一个初始化语句，例如：
 ```cpp
 switch (int b = 2; a) {
-    case 1: as = b; break;
-    case 2: as = b * 4; break;
+    case 1: as = b; 
+    break;
+    case 2: as = b * 4; 
+    break;
     default: as = 0;
 }
 ```
@@ -214,8 +222,10 @@ switch (int b = 2; a) {
 {
     int b = 2;
     switch (a) {
-        case 1: as = b; break;
-        case 2: as = b * 4; break;
+        case 1: as = b; 
+        break;
+        case 2: as = b * 4; 
+        break;
         default: as = 0;
     }
 }
@@ -237,7 +247,7 @@ else
         else statement4
 ```
 
-在多个条件并列时，我们也可以把连用的 `else` 和 `if` 理解成一个整体，称为 `else if`，这样可以使代码更加简洁：
+在多个条件并列时，我们也可以把连用的 `else` 和 `if` 理解成一个整体，称为 `else if`，这样可以使代码更加整齐、简洁、易读。
 
 ```cpp
 if (condition1) statement1
@@ -300,7 +310,7 @@ switch(a) {
 当 `a` 的值为 `3` 的时候，这里不会执行 `result = 2;`，而是执行 `result = 0;`（最后的 `default` 标号语句）。
 
 :::tip
-这样的设计会带来显著的可读性问题，程序员应当选择适合当前开发情况的代码。
+这样的嵌套 `switch` 设计会带来显著的可读性问题，程序员应当选择适合开发需要的代码。
 :::
 
 ## 循环语句

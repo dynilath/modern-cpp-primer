@@ -23,7 +23,7 @@ int main() {
 
 相信读者很容易理解到，`a` 就是一个标识符，它代表一个整数对象。
 
-此外，这里的 `int`、`main`、`std`、`cout`、`endl`、`import`、`return` 都是标识符。它们与程序员自己定义的标识符有所区别，有的是关键字，有的是具有特殊意义的标识符，有的是预定义的标识符，这会在后文做出解释。
+此外，这里的 `int`、`main`、`std`、`println`、`import` 与程序员自己起的名字有所区别：`int` 是关键字；`import` 是标准规定有特殊含义的标识符；`main` 被规定为程序的入口；`std`、`println` 则由标准库预先定义。关键字和保留的标识符会在后文解释。
 
 :::note[更多标识符]
 读者可能已经发现了标识符几乎可以是任何语言的字符，中文字符可以、日文字符也可以，甚至是许多emoji都可以（非人脸的多数emoji）。  
@@ -34,31 +34,35 @@ int main() {
 
 ## 关键字
 
-在 C++ 中，有一些看起来是标识符、但是被保留它用的为关键字。关键字被保留为特殊用途，不能被程序员使用、命名其它实体。例如，`int` 是一个关键字，程序员不能将 `int` 作为对象、函数、类型的名字。  
+在 C++ 中，有一些看起来像标识符的词，其实是被保留作他用的关键字。关键字被保留为特殊用途，不能被程序员使用、命名其它实体。例如，`int` 是一个关键字，程序员不能将 `int` 作为对象、函数、类型的名字。  
 
 关键字和标识符有相同的组成规则（由字母、数字和下划线组成），但是关键字**不是**标识符。
 
-下面列出了 C++ 中的所有关键字：
+下面列出了 C++ 中的所有关键字，其中加粗的是最常用的一批：
 
-|           |              |           |                  |          |
-| --------- | ------------ | --------- | ---------------- | -------- |
-| alignas   | constinit    | false     | public           | true     |
-| alignof   | const_cast   | float     | register         | try      |
-| asm       | continue     | for       | reinterpret_cast | typedef  |
-| auto      | co_await     | friend    | requires         | typeid   |
-| bool      | co_return    | goto      | return           | typename |
-| break     | co_yield     | if        | short            | union    |
-| case      | decltype     | inline    | signed           | unsigned |
-| catch     | default      | int       | sizeof           | using    |
-| char      | delete       | long      | static           | virtual  |
-| char8_t   | do           | mutable   | static_assert    | void     |
-| char16_t  | double       | namespace | static_cast      | volatile |
-| char32_t  | dynamic_cast | new       | struct           | wchar_t  |
-| class     | else         | noexcept  | switch           | while    |
-| concept   | enum         | nullptr   | template         |
-| const     | explicit     | operator  | this             |
-| consteval | export       | private   | thread_local     |
-| constexpr | extern       | protected | throw            |
+|           |              |               |                  |           |
+| --------- | ------------ | ------------- | ---------------- | --------- |
+| alignas   | constinit    | **false**     | public           | **true**  |
+| alignof   | const_cast   | **float**     | register         | try       |
+| asm       | **continue** | **for**       | reinterpret_cast | typedef   |
+| **auto**  | co_await     | friend        | requires         | typeid    |
+| **bool**  | co_return    | goto          | **return**       | typename  |
+| **break** | co_yield     | **if**        | short            | union     |
+| **case**  | decltype     | inline        | signed           | unsigned  |
+| catch     | default      | **int**       | **sizeof**       | **using** |
+| **char**  | **delete**   | long          | static           | virtual   |
+| char8_t   | do           | mutable       | static_assert    | **void**  |
+| char16_t  | **double**   | **namespace** | static_cast      | volatile  |
+| char32_t  | dynamic_cast | **new**       | **struct**       | wchar_t   |
+| **class** | **else**     | noexcept      | **switch**       | **while** |
+| concept   | enum         | **nullptr**   | template         |           |
+| **const** | explicit     | operator      | this             |           |
+| consteval | export       | private       | thread_local     |           |
+| constexpr | extern       | protected     | throw            |           |
+
+:::tip[不必现在背下来]
+关键字看起来很多，但大部分只在特定的、有限的场景里出现：`co_await` 只在协程里用，`reinterpret_cast` 只在特定类型转换时用，`thread_local` 只在需要线程局部对象时用……现在不必死记硬背，对加粗的这批有印象就够了。等本书讲到相应的语言特性时，自然会记住它们。
+:::
 
 ## 保留的标识符
 
@@ -110,15 +114,15 @@ int main() {
         },
         {
             text: '下面的代码中，有哪些是标识符？',
-            code: '#include <iostream> \nint main() { \n    std::cout << "Hello, World"; \n}',
-            options: ['include', 'iostream', 'int', 'main', 'std', 'cout', '<<', '"Hello, World"', ';'],
-            answers: ['main', 'std', 'cout']
+            code: 'import std; \n\nint main() { \n    const int a = 1; \n    std::println(a); \n}',
+            options: ['const', 'int', 'main', 'a', 'std', 'println', '1', ';'],
+            answers: ['main', 'a', 'std', 'println']
         },
         {
             text: '下面的代码中，有哪些是关键字？',
-            code: '#include <iostream> \n\nint main() { \n    std::cout << "Hello, World"; \n}',
-            options: ['include', 'iostream', 'int', 'main', 'std', 'cout', '<<', '"Hello, World"', ';'],
-            answers: ['int']
+            code: 'import std; \n\nint main() { \n    const int a = 1; \n    std::println(a); \n}',
+            options: ['const', 'int', 'main', 'a', 'std', 'println', '1', ';'],
+            answers: ['const', 'int']
         },
     ]} />
 

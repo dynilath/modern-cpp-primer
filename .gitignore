@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .zcode/
+examples/**/*.exe
 examples/**/out
 examples/**/.vs
 /.vscode
